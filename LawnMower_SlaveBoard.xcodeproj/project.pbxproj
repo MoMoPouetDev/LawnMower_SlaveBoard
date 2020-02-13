@@ -8,12 +8,33 @@
 
 /* Begin PBXBuildFile section */
 		9073CFF323F5BB71003B5B4D /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 9073CFF223F5BB71003B5B4D /* main.c */; };
+		9073D00923F5BE5C003B5B4D /* adc.c in Sources */ = {isa = PBXBuildFile; fileRef = 9073D00823F5BE5B003B5B4D /* adc.c */; };
+		9073D00D23F5BE86003B5B4D /* gps.c in Sources */ = {isa = PBXBuildFile; fileRef = 9073D00C23F5BE86003B5B4D /* gps.c */; };
+		9073D01023F5BE91003B5B4D /* i2c.c in Sources */ = {isa = PBXBuildFile; fileRef = 9073D00F23F5BE91003B5B4D /* i2c.c */; };
+		9073D01323F5BEA9003B5B4D /* initialisation.c in Sources */ = {isa = PBXBuildFile; fileRef = 9073D01223F5BEA9003B5B4D /* initialisation.c */; };
+		9073D01523F5BEB8003B5B4D /* interrupt.c in Sources */ = {isa = PBXBuildFile; fileRef = 9073D01423F5BEB8003B5B4D /* interrupt.c */; };
+		9073D01823F5BEC6003B5B4D /* sensors.c in Sources */ = {isa = PBXBuildFile; fileRef = 9073D01723F5BEC6003B5B4D /* sensors.c */; };
+		9073D01B23F5BED5003B5B4D /* uart.c in Sources */ = {isa = PBXBuildFile; fileRef = 9073D01A23F5BED5003B5B4D /* uart.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		9073CFEF23F5BB71003B5B4D /* Index */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Index; sourceTree = BUILT_PRODUCTS_DIR; };
 		9073CFF223F5BB71003B5B4D /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		9073CFF523F5BB71003B5B4D /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		9073D00723F5BE5B003B5B4D /* adc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = adc.h; sourceTree = "<group>"; };
+		9073D00823F5BE5B003B5B4D /* adc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = adc.c; sourceTree = "<group>"; };
+		9073D00A23F5BE70003B5B4D /* constant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = constant.h; sourceTree = "<group>"; };
+		9073D00B23F5BE86003B5B4D /* gps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gps.h; sourceTree = "<group>"; };
+		9073D00C23F5BE86003B5B4D /* gps.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gps.c; sourceTree = "<group>"; };
+		9073D00E23F5BE91003B5B4D /* i2c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i2c.h; sourceTree = "<group>"; };
+		9073D00F23F5BE91003B5B4D /* i2c.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = i2c.c; sourceTree = "<group>"; };
+		9073D01123F5BEA9003B5B4D /* initialisation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = initialisation.h; sourceTree = "<group>"; };
+		9073D01223F5BEA9003B5B4D /* initialisation.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = initialisation.c; sourceTree = "<group>"; };
+		9073D01423F5BEB8003B5B4D /* interrupt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = interrupt.c; sourceTree = "<group>"; };
+		9073D01623F5BEC6003B5B4D /* sensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sensors.h; sourceTree = "<group>"; };
+		9073D01723F5BEC6003B5B4D /* sensors.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sensors.c; sourceTree = "<group>"; };
+		9073D01923F5BED5003B5B4D /* uart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = uart.h; sourceTree = "<group>"; };
+		9073D01A23F5BED5003B5B4D /* uart.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = uart.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -38,6 +59,20 @@
 			children = (
 				9073CFF223F5BB71003B5B4D /* main.c */,
 				9073CFF423F5BB71003B5B4D /* Makefiles */,
+				9073D00723F5BE5B003B5B4D /* adc.h */,
+				9073D00823F5BE5B003B5B4D /* adc.c */,
+				9073D00A23F5BE70003B5B4D /* constant.h */,
+				9073D00B23F5BE86003B5B4D /* gps.h */,
+				9073D00C23F5BE86003B5B4D /* gps.c */,
+				9073D00E23F5BE91003B5B4D /* i2c.h */,
+				9073D00F23F5BE91003B5B4D /* i2c.c */,
+				9073D01123F5BEA9003B5B4D /* initialisation.h */,
+				9073D01223F5BEA9003B5B4D /* initialisation.c */,
+				9073D01423F5BEB8003B5B4D /* interrupt.c */,
+				9073D01623F5BEC6003B5B4D /* sensors.h */,
+				9073D01723F5BEC6003B5B4D /* sensors.c */,
+				9073D01923F5BED5003B5B4D /* uart.h */,
+				9073D01A23F5BED5003B5B4D /* uart.c */,
 			);
 			path = LawnMower_SlaveBoard;
 			sourceTree = "<group>";
@@ -175,6 +210,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9073D01023F5BE91003B5B4D /* i2c.c in Sources */,
+				9073D01523F5BEB8003B5B4D /* interrupt.c in Sources */,
+				9073D01823F5BEC6003B5B4D /* sensors.c in Sources */,
+				9073D01B23F5BED5003B5B4D /* uart.c in Sources */,
+				9073D00D23F5BE86003B5B4D /* gps.c in Sources */,
+				9073D00923F5BE5C003B5B4D /* adc.c in Sources */,
+				9073D01323F5BEA9003B5B4D /* initialisation.c in Sources */,
 				9073CFF323F5BB71003B5B4D /* main.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

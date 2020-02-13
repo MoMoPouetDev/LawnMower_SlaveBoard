@@ -1,11 +1,19 @@
 #include <stdio.h>
-#include <avr/io.h>
-#include <avr/interrupt.h>
 #include <util/delay.h>
 
+#include "constant.h"
+#include "initialisation.h"
+#include "sensors.h"
 
 int main(void) {
-	while (1) {
-	}
-	return 0; // never reached
+    Initialisation();
+    
+    while (1)
+    {
+        if(!(isDocking()))
+        {
+            startSensors();
+        }
+    }
+    return 0; // never reached
 }
