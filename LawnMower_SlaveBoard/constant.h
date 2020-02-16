@@ -39,6 +39,11 @@
  ***/
 #define TIMER_DISTANCE 466.47
 
+#define CHARGING_THRESHOLD 100
+#define RAINING_THRESHOLD 10
+#define THRESHOLD_HOUR_MIN 7
+#define THRESHOLD_HOUR_MAX 18
+
 uint8_t distanceSonarFC;
 uint8_t distanceSonarFL;
 uint8_t distanceSonarFR;
@@ -48,6 +53,9 @@ uint8_t timerOvfCount;
 uint16_t batteryLevel;
 uint16_t chargeLevel;
 uint16_t underTheRain;
+
+uint8_t _bGpsAcquisition;
+uint8_t _uHoursGpsAcquisition;
 
 typedef enum
 {

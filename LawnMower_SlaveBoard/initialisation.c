@@ -63,9 +63,7 @@ void INIT_io()
 
 void INIT_interrupt()
 {
-    PCICR |= (1<<PCIE0); // Activation des Interruptions sur PCINT[7:0]
     PCICR |= (1<<PCIE2); // Activation des Interruptions sur PCINT[23:16]
-    PCMSK0 |= (1<<PCINT0) | (1<<PCINT1) | (1<<PCINT2) | (1<<PCINT3); // Activation des Interruptions sur PCINT[3:0]
     PCMSK2 |= (1<<PCINT19); // Active interruptons sur PCINT19
     sei();
 }
@@ -103,5 +101,14 @@ void INIT_adc()
 
 void INIT_variable()
 {
-    
+	distanceSonarFC = 0;
+	distanceSonarFL = 0;
+	distanceSonarFR = 0;
+	distanceSonarRC = 0;
+	timerOvfCount = 0;
+	batteryLevel = 0;
+	chargeLevel = 0;
+	underTheRain = 0;
+	_bGpsAcquisition = 0;
+	_uHoursGpsAcquisition = 0;
 }

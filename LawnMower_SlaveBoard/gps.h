@@ -73,11 +73,14 @@ typedef struct {
     float declMagn;
 }DataNmea;
 
-void startGps(void);
+uint8_t startGpsAcquisition(void);
 void initBufferNmea(BufferNmea*);
 void initDataRmc(DataNmea_RMC*);
 void initDataNmea(DataNmea*);
+uint8_t decodeNmeaBuffer(BufferNmea*, DataNmea_RMC*, DataNmea*);
+uint8_t decodeNmeaRmc(BufferNmea*, DataNmea_RMC*, DataNmea*);
+uint8_t getNmeaUart(BufferNmea*, DataNmea_RMC*, DataNmea*);
 uint8_t getNmeaChecksum(char*);
-uint8_t getNmeaUart(BufferNmea*, char);
+uint8_t getNmeaBuffer(BufferNmea*, char);
 
 #endif /* gps_h */

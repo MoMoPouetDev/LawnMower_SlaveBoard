@@ -12,35 +12,46 @@
 #include "constant.h"
 #include "sensors.h"
 #include "adc.h"
+#include "gps.h"
 
 uint8_t isDocking()
 {
     if(etatDock == ON)
         return 1;
-    else if (etatDock == OFF)
-        return 0;
     else
-        return 0
+        return 0;
 }
 
 uint8_t isCharging()
 {
-    return chargeLevel;
+	if(chargeLevel >= CHARGING_THRESHOLD)
+		return 1; 
+    else
+		return 0;
 }
 
 uint8_t isTimeToMow()
 {
-    return 1;
+	if ((THRESHOLD_HOUR_MIN <= _uHoursGpsAcquisition) && (_uHoursGpsAcquisition < THRESHOLD_HOUR_MAX))
+		return 1;
+	else
+		return 0;
 }
 
 uint8_t isRaining()
 {
-    return underTheRain;
+	if(underTheRain >= RAINING_THRESHOLD)
+		return 1; 
+    else
+		return 0;
 }
 
 void startSensors()
 {
-    batteryLevel = ADC_read(PIN_ADC0);
+	uint8_t _uBatteryLevel = 0;
+	
+    _uBatteryLevel = ADC_read(PIN_ADC0);
+	batteryLevel = getBatteryPercent(_uBatteryLevel);
     chargeLevel = ADC_read(PIN_ADC1);
     underTheRain = ADC_read(PIN_ADC2);
     
@@ -48,6 +59,14 @@ void startSensors()
     distanceSonarFL = getSonarDistance(PIN_TRIG_FL);
     distanceSonarFR = getSonarDistance(PIN_TRIG_FR);
     distanceSonarRC = getSonarDistance(PIN_TRIG_RC);
+	
+	_bGpsAcquisition = startGpsAcquisition();
+}
+
+uint8_t getBatteryPercent(uint8_t battery) {
+	// 0 -> 1023
+	// 0% -> 100%
+	return ((battery*100)/1023);
 }
 
 uint8_t getSonarDistance(uint8_t sonarID)

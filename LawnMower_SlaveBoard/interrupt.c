@@ -18,11 +18,6 @@ ISR(TWI_vect)
     
 }
 
-ISR(PCINT0_vect)
-{
-    
-}
-
 ISR(PCINT2_vect)
 {
     if(!(PORTD & (1<<PORTD3)))
