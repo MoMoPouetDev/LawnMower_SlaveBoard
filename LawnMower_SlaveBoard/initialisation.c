@@ -111,4 +111,5 @@ void INIT_variable()
 	underTheRain = 0;
 	_bGpsAcquisition = 0;
 	_uHoursGpsAcquisition = 0;
+	_uOvfFlag = 0;
 }

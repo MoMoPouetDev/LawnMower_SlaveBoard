@@ -20,13 +20,15 @@ ISR(TWI_vect)
 
 ISR(PCINT2_vect)
 {
-    if(!(PORTD & (1<<PORTD3)))
+    if(!(PIND & (1<<PIND3)))
         etatDock = ON;
-    else if((PORTD & (1<<PORTD3)))
+    else if((PIND & (1<<PIND3)))
         etatDock = OFF;
 }
 
 ISR(TIMER1_OVF_vect)
 {
     timerOvfCount++;
+	if(timerOvfCount == 0xFFFF)
+		_uOvfFlag = 1;
 }

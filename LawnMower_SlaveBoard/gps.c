@@ -28,6 +28,15 @@ uint8_t startGpsAcquisition() {
 	return _bDecodeNmea;
 }
 
+void startGpsAcquisitionWhenDocking() {
+		if(_uOvfFlag)
+		{
+			_bGpsAcquisition = startGpsAcquisition();
+			_uOvfFlag = 0;
+			timerOvfCount = 0;
+		}
+}
+
 void initBufferNmea(BufferNmea *pBuffer) {
     for (int i = 0; i < BUFFER_SIZE; i++) {
         pBuffer->data[i] = 0;

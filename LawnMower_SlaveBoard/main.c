@@ -14,6 +14,10 @@ int main(void) {
         {
             startSensors();
         }
+		else
+		{
+			startGpsAcquisitionWhenDocking();
+		}
     }
     return 0; // never reached
 }

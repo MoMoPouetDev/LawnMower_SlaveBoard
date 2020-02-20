@@ -48,7 +48,8 @@ uint8_t distanceSonarFC;
 uint8_t distanceSonarFL;
 uint8_t distanceSonarFR;
 uint8_t distanceSonarRC;
-uint8_t timerOvfCount;
+uint16_t timerOvfCount;
+uint8_t _uOvfFlag;
 
 uint16_t batteryLevel;
 uint16_t chargeLevel;

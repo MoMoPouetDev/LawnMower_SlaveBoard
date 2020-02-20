@@ -76,16 +76,16 @@ uint8_t getSonarDistance(uint8_t sonarID)
     uint8_t echoID;
     
     if(sonarID == PORTB4)
-        echoID = PORTB0;
+        echoID = PINB0;
     else if(sonarID == PORTB5)
-        echoID = PORTB1;
+        echoID = PINB1;
     else if(sonarID == PORTB6)
-        echoID = PORTB2;
+        echoID = PINB2;
     else if(sonarID == PORTB7)
-        echoID = PORTB3;
+        echoID = PINB3;
     else
     {
-        echoID = PORT0;
+        echoID = PINB0;
         return SONAR_DIST_ERR;
     }
     
@@ -95,9 +95,9 @@ uint8_t getSonarDistance(uint8_t sonarID)
     _delay_us(12);
     PORTB &= ~(1<<sonarID);
     
-    while(!(PORTB & (1<<echoID)));
+    while(!(PINB & (1<<echoID)));
     TCNT1 = 0;
-    while(PORTB & (1<<echoID));
+    while(PINB & (1<<echoID));
     tempCount = TCNT1 + (TIMER1_OVERFLOW*timerOvfCount);
     
     distance = (uint8_t)((double)tempCount / TIMER_DISTANCE);
