@@ -84,7 +84,7 @@ void INIT_i2c()
 void INIT_uart()
 {
     /***** UART BaudRate *****/
-    UBRR0H = (BAUD_PRESCALE>>8);
+    UBRR0H = ((BAUD_PRESCALE)>>8);
     UBRR0L = BAUD_PRESCALE;
     
     /***** Autoriser Reception *****/

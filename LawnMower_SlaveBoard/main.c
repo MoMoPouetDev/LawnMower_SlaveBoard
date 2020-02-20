@@ -4,6 +4,7 @@
 #include "constant.h"
 #include "initialisation.h"
 #include "sensors.h"
+#include "gps.h"
 
 int main(void) {
     Initialisation();

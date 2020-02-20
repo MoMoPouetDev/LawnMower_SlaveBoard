@@ -74,6 +74,7 @@ typedef struct {
 }DataNmea;
 
 uint8_t startGpsAcquisition(void);
+void startGpsAcquisitionWhenDocking(void);
 void initBufferNmea(BufferNmea*);
 void initDataRmc(DataNmea_RMC*);
 void initDataNmea(DataNmea*);
