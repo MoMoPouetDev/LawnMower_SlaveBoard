@@ -17,7 +17,7 @@ void Initialisation()
 {
     INIT_io();
     INIT_variable();
-    INIT_i2c();
+    INIT_twi();
     INIT_uart();
     INIT_adc();
     INIT_timer();
@@ -75,10 +75,11 @@ void INIT_timer()
     TIMSK1 |= (1<<TOIE1); // Enable overflow counter
 }
 
-void INIT_i2c()
+void INIT_twi()
 {
-    TWBR = 32; //TWBR  = ((F_CPU / SCL_CLK) – 16) / 2
-    TWCR = (1<<TWEN) | (1<<TWIE);
+    TWBR = 2; //TWBR  = ((F_CPU / SCL_CLK) – 16) / 2 - 400kHz
+    TWCR = (1<<TWEA) | (1<<TWEN) | (1<<TWIE);
+	TWAR |= (ADDR_SLAVE_SENSOR<<1);
 }
 
 void INIT_uart()
