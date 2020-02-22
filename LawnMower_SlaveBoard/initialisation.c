@@ -101,15 +101,16 @@ void INIT_adc()
 
 void INIT_variable()
 {
-	distanceSonarFC = 0;
-	distanceSonarFL = 0;
-	distanceSonarFR = 0;
-	distanceSonarRC = 0;
-	timerOvfCount = 0;
-	batteryLevel = 0;
-	chargeLevel = 0;
-	underTheRain = 0;
+	_uDistanceSonarFC = 0;
+	_uDistanceSonarFL = 0;
+	_uDistanceSonarFR = 0;
+	_uDistanceSonarRC = 0;
+	_uTimerOvfCount = 0;
+	_uBatteryPercent = 0;
+	_uChargeLevel = 0;
+	_uUnderTheRain = 0;
 	_bGpsAcquisition = 0;
 	_uHoursGpsAcquisition = 0;
 	_uOvfFlag = 0;
+    _uSendData = 0;
 }

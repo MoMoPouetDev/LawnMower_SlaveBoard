@@ -44,25 +44,27 @@
 #define THRESHOLD_HOUR_MIN 7
 #define THRESHOLD_HOUR_MAX 18
 
-uint8_t distanceSonarFC;
-uint8_t distanceSonarFL;
-uint8_t distanceSonarFR;
-uint8_t distanceSonarRC;
-uint16_t timerOvfCount;
+uint8_t _uDistanceSonarFC;
+uint8_t _uDistanceSonarFL;
+uint8_t _uDistanceSonarFR;
+uint8_t _uDistanceSonarRC;
+uint16_t _uTimerOvfCount;
 uint8_t _uOvfFlag;
 
-uint16_t batteryLevel;
-uint16_t chargeLevel;
-uint16_t underTheRain;
+uint16_t _uBatteryPercent;
+uint16_t _uChargeLevel;
+uint16_t _uUnderTheRain;
 
 uint8_t _bGpsAcquisition;
 uint8_t _uHoursGpsAcquisition;
 
+uint8_t _uSendData;
+
 typedef enum
 {
-    ON,
-    OFF
+    ON = 0x01,
+    OFF = 0x00
 }Etat;
-Etat etatDock;
+Etat _eEtatDock;
 
 #endif /* constant_h */

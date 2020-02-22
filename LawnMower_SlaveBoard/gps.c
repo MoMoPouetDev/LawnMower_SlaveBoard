@@ -33,7 +33,7 @@ void startGpsAcquisitionWhenDocking() {
 		{
 			_bGpsAcquisition = startGpsAcquisition();
 			_uOvfFlag = 0;
-			timerOvfCount = 0;
+			_uTimerOvfCount = 0;
 		}
 }
 

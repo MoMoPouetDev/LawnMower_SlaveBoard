@@ -16,7 +16,7 @@
 
 uint8_t isDocking()
 {
-    if(etatDock == ON)
+    if(_eEtatDock == ON)
         return 1;
     else
         return 0;
@@ -24,7 +24,7 @@ uint8_t isDocking()
 
 uint8_t isCharging()
 {
-	if(chargeLevel >= CHARGING_THRESHOLD)
+	if(_uChargeLevel >= CHARGING_THRESHOLD)
 		return 1; 
     else
 		return 0;
@@ -40,7 +40,7 @@ uint8_t isTimeToMow()
 
 uint8_t isRaining()
 {
-	if(underTheRain >= RAINING_THRESHOLD)
+	if(_uUnderTheRain >= RAINING_THRESHOLD)
 		return 1; 
     else
 		return 0;
@@ -51,14 +51,22 @@ void startSensors()
 	uint8_t _uBatteryLevel = 0;
 	
     _uBatteryLevel = ADC_read(PIN_ADC0);
-	batteryLevel = getBatteryPercent(_uBatteryLevel);
-    chargeLevel = ADC_read(PIN_ADC1);
-    underTheRain = ADC_read(PIN_ADC2);
+	_uBatteryPercent = getBatteryPercent(_uBatteryLevel);
     
-    distanceSonarFC = getSonarDistance(PIN_TRIG_FC);
-    distanceSonarFL = getSonarDistance(PIN_TRIG_FL);
-    distanceSonarFR = getSonarDistance(PIN_TRIG_FR);
-    distanceSonarRC = getSonarDistance(PIN_TRIG_RC);
+    if (ADC_read(PIN_ADC1) <= CHARGING_THRESHOLD)
+        _uChargeLevel = 0;
+    else
+        _uChargeLevel = 1;
+    
+    if (ADC_read(PIN_ADC2) <= RAINING_THRESHOLD)
+        _uUnderTheRain = 0;
+    else
+        _uUnderTheRain = 1;
+    
+    _uDistanceSonarFC = getSonarDistance(PIN_TRIG_FC);
+    _uDistanceSonarFL = getSonarDistance(PIN_TRIG_FL);
+    _uDistanceSonarFR = getSonarDistance(PIN_TRIG_FR);
+    _uDistanceSonarRC = getSonarDistance(PIN_TRIG_RC);
 	
 	_bGpsAcquisition = startGpsAcquisition();
 }
@@ -89,7 +97,7 @@ uint8_t getSonarDistance(uint8_t sonarID)
         return SONAR_DIST_ERR;
     }
     
-    timerOvfCount = 0;
+    _uTimerOvfCount = 0;
     
     PORTB |= (1<<sonarID);
     _delay_us(12);
@@ -98,7 +106,7 @@ uint8_t getSonarDistance(uint8_t sonarID)
     while(!(PINB & (1<<echoID)));
     TCNT1 = 0;
     while(PINB & (1<<echoID));
-    tempCount = TCNT1 + (TIMER1_OVERFLOW*timerOvfCount);
+    tempCount = TCNT1 + (TIMER1_OVERFLOW*_uTimerOvfCount);
     
     distance = (uint8_t)((double)tempCount / TIMER_DISTANCE);
     

@@ -21,14 +21,14 @@ ISR(TWI_vect)
 ISR(PCINT2_vect)
 {
     if(!(PIND & (1<<PIND3)))
-        etatDock = ON;
+        _eEtatDock = ON;
     else if((PIND & (1<<PIND3)))
-        etatDock = OFF;
+        _eEtatDock = OFF;
 }
 
 ISR(TIMER1_OVF_vect)
 {
-    timerOvfCount++;
-	if(timerOvfCount == 0xFFFF)
+    _uTimerOvfCount++;
+	if(_uTimerOvfCount == 0xFFFF)
 		_uOvfFlag = 1;
 }
