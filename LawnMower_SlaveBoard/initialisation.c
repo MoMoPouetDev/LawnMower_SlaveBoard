@@ -29,13 +29,16 @@ void INIT_io()
 {
     /***** PORT B *****/
     DDRB = 0x00;
-    //DDRB |= (0<<DDB0) | (1<<DDB1) | (1<<DDB2) | (1<<DDB3); // Echo Sonar FC, FL, FR, BC
-    DDRB |= (1<<DDB4) | (1<<DDB5) | (1<<DDB6) | (1<<DDB7); // Trigger Sonar FC, FL, FR, BC
+    //DDRB |= (0<<DDB0) | (1<<DDB1) | (1<<DDB2) ; // Echo Sonar FC, FL, FR
+    //DDRB |= (1<<DDB3); // TBD
+    DDRB |= (1<<DDB4) | (1<<DDB5) | (1<<DDB6); // Trigger Sonar FC, FL, FR
+    //DDRB  |= (1<<DDB7); // TBD
     
     PORTB = 0x00;
     //PORTB |= (1<<PORTB0) | (1<<PORTB1) | (1<<PORTB2) | (1<<PORTB3); // No Pull-Up Echo Sonar
+    PORTB |= (1<<PORTB3); // TBD - Pull-Up
     // PORTB &= ~(1<<PORTB4) & ~(1<<PORTB5) & ~(1<<PORTB6) & ~(1<<PORTB7); // Force à 0 Trigger
-    
+    PORTB |= (1<<PORTB7); // TBD - Pull-Up
     
     /***** PORT C *****/
     DDRC = 0x00;
@@ -106,7 +109,6 @@ void INIT_variable()
 	_uDistanceSonarFC = 0;
 	_uDistanceSonarFL = 0;
 	_uDistanceSonarFR = 0;
-	_uDistanceSonarRC = 0;
 	_uTimerOvfCount = 0;
 	_uBatteryPercent = 0;
 	_uChargeLevel = 0;
@@ -119,8 +121,12 @@ void INIT_variable()
 	_uDaysGpsAcquisition = 0;
     _tLatitude.degrees = 0;
     _tLatitude.minutes = 0;
-    _tLatitude.decimal = 0;
+    _tLatitude.decimalMSB = 0;
+    _tLatitude.decimalB = 0;
+    _tLatitude.decimalLSB = 0;
     _tLongitude.degrees = 0;
     _tLongitude.minutes = 0;
-    _tLongitude.decimal = 0;
+    _tLongitude.decimalMSB = 0;
+    _tLongitude.decimalB = 0;
+    _tLongitude.decimalLSB = 0;
 }

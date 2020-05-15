@@ -369,12 +369,14 @@
 		9073D00523F5BB71003B5B4D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				INSTALL_PATH = /usr/local/bin;
 			};
 			name = Debug;
 		};
 		9073D00623F5BB71003B5B4D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				INSTALL_PATH = /usr/local/bin;
 			};
 			name = Release;
 		};

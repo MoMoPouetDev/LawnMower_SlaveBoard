@@ -17,83 +17,95 @@
 
 void TWI_decodeReceivedData(uint8_t receivedData) {
     switch (receivedData) {
-        case SENSOR_V:
+        case ADDR_SENSOR_V:
             _uSendData = _uBatteryPercent;
             break;
             
-        case SENSOR_A:
+        case ADDR_SENSOR_A:
             _uSendData = _uChargeLevel;
             break;
             
-        case SENSOR_DOCK:
+        case ADDR_SENSOR_DOCK:
             _uSendData = _eEtatDock;
             break;
             
-        case SENSOR_RAIN:
+        case ADDR_SENSOR_RAIN:
             _uSendData = _uUnderTheRain;
             break;
             
-        case SONAR_FC:
+        case ADDR_SONAR_FC:
             _uSendData = _uDistanceSonarFC;
             break;
             
-        case SONAR_FL:
+        case ADDR_SONAR_FL:
             _uSendData = _uDistanceSonarFL;
             break;
             
-        case SONAR_FR:
-            _uSendData = _uDistanceSonarFR;
-            break;
-            
-        case SONAR_RC:
+        case ADDR_SONAR_FR:
             _uSendData = _uDistanceSonarFR;
             break;
 			
-        case GPS_TIME_HOURS:
+        case ADDR_GPS_TIME_HOURS:
             _uSendData = _uHoursGpsAcquisition;
             break;
 			
-		case GPS_TIME_MINUTES:
+		case ADDR_GPS_TIME_MINUTES:
             _uSendData = _uMinutesGpsAcquisition;
             break;
 			
-        case GPS_DATE_DAYS:
+        case ADDR_GPS_DATE_DAYS:
             _uSendData = _uDaysGpsAcquisition;
             break;
 			
-		case GPS_DATE_MONTHS:
+		case ADDR_GPS_DATE_MONTHS:
             _uSendData = _uMonthsGpsAcquisition;
             break;
 			
-		case GPS_LONG_DEG:
+		case ADDR_GPS_LONG_DEG:
             _uSendData = _tLongitude.degrees;
             break;
 			
-		case GPS_LONG_MIN:
+		case ADDR_GPS_LONG_MIN:
             _uSendData = _tLongitude.minutes;
             break;
 			
-		case GPS_LONG_DEC:
-            _uSendData = _tLongitude.decimal;
+		case ADDR_GPS_LONG_DEC_MSB:
+            _uSendData = _tLongitude.decimalMSB;
             break;
-			
-        case GPS_LAT_DEG:
+        
+        case ADDR_GPS_LONG_DEC_B:
+            _uSendData = _tLongitude.decimalB;
+            break;
+        
+        case ADDR_GPS_LONG_DEC_LSB:
+            _uSendData = _tLongitude.decimalLSB;
+            break;
+            
+        case ADDR_GPS_LAT_DEG:
             _uSendData = _tLatitude.degrees;
             break;
 			
-        case GPS_LAT_MIN:
+        case ADDR_GPS_LAT_MIN:
             _uSendData = _tLatitude.minutes;
             break;
 			
-        case GPS_LAT_DEC:
-            _uSendData = _tLatitude.decimal;
+        case ADDR_GPS_LAT_DEC_MSB:
+            _uSendData = _tLatitude.decimalMSB;
+            break;
+            
+        case ADDR_GPS_LAT_DEC_B:
+            _uSendData = _tLatitude.decimalB;
+            break;
+            
+        case ADDR_GPS_LAT_DEC_LSB:
+            _uSendData = _tLatitude.decimalLSB;
             break;
 			
-		case TIME_TO_MOW:
+		case ADDR_TIME_TO_MOW:
 			_uSendData = isTimeToMow();
             
         default:
-            _uSendData = UNKNOWN_DATA;
+            _uSendData = ADDR_UNKNOWN_DATA;
             break;
     }
 }

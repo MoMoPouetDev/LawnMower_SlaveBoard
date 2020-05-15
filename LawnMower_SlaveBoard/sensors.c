@@ -56,9 +56,6 @@ void startSensors()
     _uDistanceSonarFR = getSonarDistance(PIN_TRIG_FR);
 	if(_uDistanceSonarFR > THRESHOLD_8_BITS)
 		_uDistanceSonarFR = THRESHOLD_8_BITS;
-    _uDistanceSonarRC = getSonarDistance(PIN_TRIG_RC);
-	if(_uDistanceSonarRC > THRESHOLD_8_BITS)
-		_uDistanceSonarRC = THRESHOLD_8_BITS;
 	
 	startGpsAcquisition();
 }
@@ -75,14 +72,12 @@ uint8_t getSonarDistance(uint8_t sonarID)
     uint32_t tempCount = 0;
     uint8_t echoID;
     
-    if(sonarID == PORTB4)
-        echoID = PINB0;
-    else if(sonarID == PORTB5)
-        echoID = PINB1;
-    else if(sonarID == PORTB6)
-        echoID = PINB2;
-    else if(sonarID == PORTB7)
-        echoID = PINB3;
+    if(sonarID == PIN_TRIG_FC)
+        echoID = PIN_ECHO_FC;
+    else if(sonarID == PIN_TRIG_FL)
+        echoID = PIN_ECHO_FL;
+    else if(sonarID == PIN_TRIG_FR)
+        echoID = PIN_ECHO_FR;
     else
     {
         echoID = PINB0;

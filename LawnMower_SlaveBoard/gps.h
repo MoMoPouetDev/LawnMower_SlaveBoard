@@ -62,7 +62,9 @@ typedef struct {
 typedef struct {
     uint8_t degrees;
     uint8_t minutes;
-    uint8_t decimal;
+    uint8_t decimalMSB;
+    uint8_t decimalB;
+    uint8_t decimalLSB;
 }Coordinates;
 Coordinates _tLatitude;
 Coordinates _tLongitude;

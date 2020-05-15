@@ -387,12 +387,17 @@ void rmcDate(DataNmea_RMC *pNmeaRmc){
 }
 
 void rmcLatLong(DataNmea_RMC *pNmeaRmc) {
+    /*
+     * Format lat ddmm.mmmmm -> dd uint8_t ; mm uint8_t ; mmmmm uint32_t  (uint32)MSB << 16 | (uint32)MiSB << 8 | (uint32)LSB
+     * Format long dddmm.mmmmm -> ddd uint8_t ; mm uint8_t ; mmmmm uint32_t (uint32)MSB << 16 | (uint32)MiSB << 8 | (uint32)LSB
+     */
 	char latitudeDegrees[3] = { 0 };
     char latitudeMinutes[3] = { 0 };
-    char latitudeDecimal[3] = { 0 };
+    char latitudeDecimal[6] = { 0 };
     char longitudeDegrees[4] = { 0 };
     char longitudeMinutes[3] = { 0 };
-    char longitudeDecimal[3] = { 0 };
+    char longitudeDecimal[6] = { 0 };
+    uint32_t decimalTemp;
 	
     latitudeDegrees[0] = pNmeaRmc->latitude[0];
     latitudeDegrees[1] = pNmeaRmc->latitude[1];
@@ -404,7 +409,13 @@ void rmcLatLong(DataNmea_RMC *pNmeaRmc) {
     
     latitudeDecimal[0] = pNmeaRmc->latitude[5];
     latitudeDecimal[1] = pNmeaRmc->latitude[6];
-    _tLatitude.decimal = (uint8_t)(atoi(latitudeDecimal));
+    latitudeDecimal[2] = pNmeaRmc->latitude[7];
+    latitudeDecimal[3] = pNmeaRmc->latitude[8];
+    latitudeDecimal[4] = pNmeaRmc->latitude[9];
+    decimalTemp = (uint32_t)(atoi(latitudeDecimal));
+    _tLatitude.decimalMSB = (uint8_t)(decimalTemp >> 16);
+    _tLatitude.decimalB = (uint8_t)(decimalTemp >> 8);
+    _tLatitude.decimalLSB = (uint8_t)(decimalTemp);
     
     longitudeDegrees[0] = pNmeaRmc->longitude[0];
     longitudeDegrees[1] = pNmeaRmc->longitude[1];
@@ -417,5 +428,12 @@ void rmcLatLong(DataNmea_RMC *pNmeaRmc) {
     
     longitudeDecimal[0] = pNmeaRmc->longitude[6];
     longitudeDecimal[1] = pNmeaRmc->longitude[7];
-    _tLongitude.decimal = (uint8_t)(atoi(longitudeDecimal));
+    longitudeDecimal[2] = pNmeaRmc->longitude[8];
+    longitudeDecimal[3] = pNmeaRmc->longitude[9];
+    longitudeDecimal[4] = pNmeaRmc->longitude[10];
+    decimalTemp = (uint32_t)(atoi(longitudeDecimal));
+    _tLongitude.decimalMSB = (uint8_t)(decimalTemp >> 16);
+    _tLongitude.decimalB = (uint8_t)(decimalTemp >> 8);
+    _tLongitude.decimalLSB = (uint8_t)(decimalTemp);
 }
+
