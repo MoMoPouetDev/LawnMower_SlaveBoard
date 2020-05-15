@@ -60,28 +60,30 @@ typedef struct {
 }DataNmea_RMC;
 
 typedef struct {
-    uint8_t utcTimeHours;
-    uint8_t utcTimeMinutes;
-    uint8_t utcTimeSeconds;
-    float latitude;
-    float longitude;
-    float speed;
-    float cap;
-    uint8_t utcDateDays;
-    uint8_t utcDateMonths;
-    uint8_t utcDateYears;
-    float declMagn;
-}DataNmea;
+    uint8_t degrees;
+    uint8_t minutes;
+    uint8_t decimal;
+}Coordinates;
+Coordinates _tLatitude;
+Coordinates _tLongitude;
 
-uint8_t startGpsAcquisition(void);
+uint8_t _uMinutesGpsAcquisition;
+uint8_t _uHoursGpsAcquisition;
+uint8_t _uMonthsGpsAcquisition;
+uint8_t _uDaysGpsAcquisition;
+
+void startGpsAcquisition(void);
 void startGpsAcquisitionWhenDocking(void);
 void initBufferNmea(BufferNmea*);
 void initDataRmc(DataNmea_RMC*);
-void initDataNmea(DataNmea*);
-uint8_t decodeNmeaBuffer(BufferNmea*, DataNmea_RMC*, DataNmea*);
-uint8_t decodeNmeaRmc(BufferNmea*, DataNmea_RMC*, DataNmea*);
-uint8_t getNmeaUart(BufferNmea*, DataNmea_RMC*, DataNmea*);
+uint8_t decodeNmeaBuffer(BufferNmea*, DataNmea_RMC*);
+uint8_t decodeNmeaRmc(BufferNmea*, DataNmea_RMC*);
+uint8_t getNmeaUart(BufferNmea*, DataNmea_RMC*);
 uint8_t getNmeaChecksum(char*);
 uint8_t getNmeaBuffer(BufferNmea*, char);
+void decodeNmeaForMaster(DataNmea_RMC*);
+void rmcUtcTime(DataNmea_RMC*);
+void rmcDate(DataNmea_RMC*);
+void rmcLatLong(DataNmea_RMC*);
 
 #endif /* gps_h */

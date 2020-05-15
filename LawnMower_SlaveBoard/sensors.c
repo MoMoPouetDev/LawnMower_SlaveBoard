@@ -22,27 +22,11 @@ uint8_t isDocking()
         return 0;
 }
 
-uint8_t isCharging()
-{
-	if(_uChargeLevel >= CHARGING_THRESHOLD)
-		return 1; 
-    else
-		return 0;
-}
-
 uint8_t isTimeToMow()
 {
 	if ((THRESHOLD_HOUR_MIN <= _uHoursGpsAcquisition) && (_uHoursGpsAcquisition < THRESHOLD_HOUR_MAX))
 		return 1;
 	else
-		return 0;
-}
-
-uint8_t isRaining()
-{
-	if(_uUnderTheRain >= RAINING_THRESHOLD)
-		return 1; 
-    else
 		return 0;
 }
 
@@ -64,11 +48,19 @@ void startSensors()
         _uUnderTheRain = 1;
     
     _uDistanceSonarFC = getSonarDistance(PIN_TRIG_FC);
+	if(_uDistanceSonarFC > THRESHOLD_8_BITS)
+		_uDistanceSonarFC = THRESHOLD_8_BITS;
     _uDistanceSonarFL = getSonarDistance(PIN_TRIG_FL);
+	if(_uDistanceSonarFL > THRESHOLD_8_BITS)
+		_uDistanceSonarFL = THRESHOLD_8_BITS;
     _uDistanceSonarFR = getSonarDistance(PIN_TRIG_FR);
+	if(_uDistanceSonarFR > THRESHOLD_8_BITS)
+		_uDistanceSonarFR = THRESHOLD_8_BITS;
     _uDistanceSonarRC = getSonarDistance(PIN_TRIG_RC);
+	if(_uDistanceSonarRC > THRESHOLD_8_BITS)
+		_uDistanceSonarRC = THRESHOLD_8_BITS;
 	
-	_bGpsAcquisition = startGpsAcquisition();
+	startGpsAcquisition();
 }
 
 uint8_t getBatteryPercent(uint8_t battery) {
@@ -108,7 +100,7 @@ uint8_t getSonarDistance(uint8_t sonarID)
     while(PINB & (1<<echoID));
     tempCount = TCNT1 + (TIMER1_OVERFLOW*_uTimerOvfCount);
     
-    distance = (uint8_t)((double)tempCount / TIMER_DISTANCE);
+    distance = (uint8_t)((double)(tempCount / TIMER_DISTANCE)/2);
     
     return distance;
 }

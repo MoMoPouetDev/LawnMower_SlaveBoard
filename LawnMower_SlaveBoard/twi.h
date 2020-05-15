@@ -18,7 +18,18 @@ typedef enum {
     SONAR_FC = 0x05,
     SONAR_FL = 0x06,
     SONAR_FR = 0x07,
-    GPS = 0x08
+    SONAR_RC = 0x08,
+    GPS_TIME_HOURS = 0x09,
+    GPS_TIME_MINUTES = 0x0A,
+    GPS_DATE_DAYS = 0x0B,
+    GPS_DATE_MONTHS = 0x0C,
+    GPS_LONG_DEG = 0x0D,
+    GPS_LONG_MIN = 0x0E,
+    GPS_LONG_DEC = 0x0F,
+    GPS_LAT_DEG = 0x10,
+    GPS_LAT_MIN = 0x11,
+    GPS_LAT_DEC = 0x12,
+    TIME_TO_MOW = 0x13
 }DataAddress;
 DataAddress _eDataAdress;
 

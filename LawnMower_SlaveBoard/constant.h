@@ -18,13 +18,10 @@
 #define PIN_ADC1 1
 #define PIN_ADC2 2
 
-#define ADDR_SLAVE_SENSOR 0x01
-
-#define I2C_WRITE   0
-#define I2C_READ    1
+#define ADDR_SLAVE_SENSOR 0x02
 
 #define BAUD 9600
-#define BAUD_PRESCALE (F_CPU/ (16UL*BAUD))-1
+#define BAUD_PRESCALE ((F_CPU/ (16UL*BAUD))-1)
 #define BUFFER_SIZE 80
 
 #define PIN_TRIG_FC PORTB4
@@ -44,19 +41,19 @@
 #define THRESHOLD_HOUR_MIN 7
 #define THRESHOLD_HOUR_MAX 18
 
+#define THRESHOLD_8_BITS 0xFE
+
 uint8_t _uDistanceSonarFC;
 uint8_t _uDistanceSonarFL;
 uint8_t _uDistanceSonarFR;
 uint8_t _uDistanceSonarRC;
+
+uint8_t _uBatteryPercent;
+uint8_t _uChargeLevel;
+uint8_t _uUnderTheRain;
+
 uint16_t _uTimerOvfCount;
 uint8_t _uOvfFlag;
-
-uint16_t _uBatteryPercent;
-uint16_t _uChargeLevel;
-uint16_t _uUnderTheRain;
-
-uint8_t _bGpsAcquisition;
-uint8_t _uHoursGpsAcquisition;
 
 uint8_t _uSendData;
 

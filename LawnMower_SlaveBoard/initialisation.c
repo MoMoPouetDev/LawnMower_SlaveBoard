@@ -12,6 +12,7 @@
 
 #include "constant.h"
 #include "initialisation.h"
+#include "gps.h"
 
 void Initialisation()
 {
@@ -79,7 +80,7 @@ void INIT_twi()
 {
     TWBR = 2; //TWBR  = ((F_CPU / SCL_CLK) – 16) / 2 - 400kHz
     TWCR = (1<<TWEA) | (1<<TWEN) | (1<<TWIE);
-	TWAR |= (ADDR_SLAVE_SENSOR<<1);
+	TWAR = ADDR_SLAVE_SENSOR;
 }
 
 void INIT_uart()
@@ -89,8 +90,8 @@ void INIT_uart()
     UBRR0L = BAUD_PRESCALE;
     
     /***** Autoriser Reception *****/
-    UCSR0B |= (1<<RXEN0);
-    UCSR0C |= (1<<UCSZ01) | (1<<UCSZ00);
+    UCSR0B = (1<<RXEN0);
+    UCSR0C = (1<<UCSZ01) | (1<<UCSZ00);
     
 }
 
@@ -110,8 +111,16 @@ void INIT_variable()
 	_uBatteryPercent = 0;
 	_uChargeLevel = 0;
 	_uUnderTheRain = 0;
-	_bGpsAcquisition = 0;
-	_uHoursGpsAcquisition = 0;
 	_uOvfFlag = 0;
     _uSendData = 0;
+	_uMinutesGpsAcquisition = 0;
+	_uHoursGpsAcquisition = 0;
+	_uMonthsGpsAcquisition = 0;
+	_uDaysGpsAcquisition = 0;
+    _tLatitude.degrees = 0;
+    _tLatitude.minutes = 0;
+    _tLatitude.decimal = 0;
+    _tLongitude.degrees = 0;
+    _tLongitude.minutes = 0;
+    _tLongitude.decimal = 0;
 }

@@ -12,6 +12,8 @@
 
 #include "constant.h"
 #include "twi.h"
+#include "sensors.h"
+#include "gps.h"
 
 void TWI_decodeReceivedData(uint8_t receivedData) {
     switch (receivedData) {
@@ -43,9 +45,52 @@ void TWI_decodeReceivedData(uint8_t receivedData) {
             _uSendData = _uDistanceSonarFR;
             break;
             
-        case GPS:
+        case SONAR_RC:
+            _uSendData = _uDistanceSonarFR;
+            break;
+			
+        case GPS_TIME_HOURS:
             _uSendData = _uHoursGpsAcquisition;
             break;
+			
+		case GPS_TIME_MINUTES:
+            _uSendData = _uMinutesGpsAcquisition;
+            break;
+			
+        case GPS_DATE_DAYS:
+            _uSendData = _uDaysGpsAcquisition;
+            break;
+			
+		case GPS_DATE_MONTHS:
+            _uSendData = _uMonthsGpsAcquisition;
+            break;
+			
+		case GPS_LONG_DEG:
+            _uSendData = _tLongitude.degrees;
+            break;
+			
+		case GPS_LONG_MIN:
+            _uSendData = _tLongitude.minutes;
+            break;
+			
+		case GPS_LONG_DEC:
+            _uSendData = _tLongitude.decimal;
+            break;
+			
+        case GPS_LAT_DEG:
+            _uSendData = _tLatitude.degrees;
+            break;
+			
+        case GPS_LAT_MIN:
+            _uSendData = _tLatitude.minutes;
+            break;
+			
+        case GPS_LAT_DEC:
+            _uSendData = _tLatitude.decimal;
+            break;
+			
+		case TIME_TO_MOW:
+			_uSendData = isTimeToMow();
             
         default:
             _uSendData = UNKNOWN_DATA;
@@ -75,7 +120,7 @@ void TWI_write_data(uint8_t dataToSend)
 
 uint8_t TWI_readACK()
 {
-    TWCR = (1<<TWEN) | (1<<TWINT);
+    TWCR = (1<<TWEN) | (1<<TWINT) | (1<<TWEA);
     while (!(TWCR & (1<<TWINT)));
     return TWDR;
 }
