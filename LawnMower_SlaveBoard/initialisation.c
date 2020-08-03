@@ -81,7 +81,7 @@ void INIT_timer()
 
 void INIT_twi()
 {
-    TWBR = 2; //TWBR  = ((F_CPU / SCL_CLK) – 16) / 2 - 400kHz
+    TWBR = ((F_CPU / SCL_CLOCK) – 16) / 2; //- 400kHz
     TWCR = (1<<TWEA) | (1<<TWEN) | (1<<TWIE);
 	TWAR = ADDR_SLAVE_SENSOR;
 }
@@ -89,8 +89,8 @@ void INIT_twi()
 void INIT_uart()
 {
     /***** UART BaudRate *****/
-    UBRR0H = ((BAUD_PRESCALE)>>8);
-    UBRR0L = BAUD_PRESCALE;
+    UBRR0H = (unsigned char) ((BAUD_PRESCALE)>>8);
+    UBRR0L = (unsigned char) BAUD_PRESCALE;
     
     /***** Autoriser Reception *****/
     UCSR0B = (1<<RXEN0);

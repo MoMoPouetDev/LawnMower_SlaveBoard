@@ -15,99 +15,101 @@
 #include "sensors.h"
 #include "gps.h"
 
-void TWI_decodeReceivedData(uint8_t receivedData) {
+uint8_t TWI_decodeReceivedData(uint8_t receivedData) {
+    uint8_t uSendData;
     switch (receivedData) {
         case ADDR_SENSOR_V:
-            _uSendData = _uBatteryPercent;
+            uSendData = _uBatteryPercent;
             break;
             
         case ADDR_SENSOR_A:
-            _uSendData = _uChargeLevel;
+            uSendData = _uChargeLevel;
             break;
             
         case ADDR_SENSOR_DOCK:
-            _uSendData = _eEtatDock;
+            uSendData = _eEtatDock;
             break;
             
         case ADDR_SENSOR_RAIN:
-            _uSendData = _uUnderTheRain;
+            uSendData = _uUnderTheRain;
             break;
             
         case ADDR_SONAR_FC:
-            _uSendData = _uDistanceSonarFC;
+            uSendData = _uDistanceSonarFC;
             break;
             
         case ADDR_SONAR_FL:
-            _uSendData = _uDistanceSonarFL;
+            uSendData = _uDistanceSonarFL;
             break;
             
         case ADDR_SONAR_FR:
-            _uSendData = _uDistanceSonarFR;
+            uSendData = _uDistanceSonarFR;
             break;
 			
         case ADDR_GPS_TIME_HOURS:
-            _uSendData = _uHoursGpsAcquisition;
+            uSendData = _uHoursGpsAcquisition;
             break;
 			
 		case ADDR_GPS_TIME_MINUTES:
-            _uSendData = _uMinutesGpsAcquisition;
+            uSendData = _uMinutesGpsAcquisition;
             break;
 			
         case ADDR_GPS_DATE_DAYS:
-            _uSendData = _uDaysGpsAcquisition;
+            uSendData = _uDaysGpsAcquisition;
             break;
 			
 		case ADDR_GPS_DATE_MONTHS:
-            _uSendData = _uMonthsGpsAcquisition;
+            uSendData = _uMonthsGpsAcquisition;
             break;
 			
 		case ADDR_GPS_LONG_DEG:
-            _uSendData = _tLongitude.degrees;
+            uSendData = _tLongitude.degrees;
             break;
 			
 		case ADDR_GPS_LONG_MIN:
-            _uSendData = _tLongitude.minutes;
+            uSendData = _tLongitude.minutes;
             break;
 			
 		case ADDR_GPS_LONG_DEC_MSB:
-            _uSendData = _tLongitude.decimalMSB;
+            uSendData = _tLongitude.decimalMSB;
             break;
         
         case ADDR_GPS_LONG_DEC_B:
-            _uSendData = _tLongitude.decimalB;
+            uSendData = _tLongitude.decimalB;
             break;
         
         case ADDR_GPS_LONG_DEC_LSB:
-            _uSendData = _tLongitude.decimalLSB;
+            uSendData = _tLongitude.decimalLSB;
             break;
             
         case ADDR_GPS_LAT_DEG:
-            _uSendData = _tLatitude.degrees;
+            uSendData = _tLatitude.degrees;
             break;
 			
         case ADDR_GPS_LAT_MIN:
-            _uSendData = _tLatitude.minutes;
+            uSendData = _tLatitude.minutes;
             break;
 			
         case ADDR_GPS_LAT_DEC_MSB:
-            _uSendData = _tLatitude.decimalMSB;
+            uSendData = _tLatitude.decimalMSB;
             break;
             
         case ADDR_GPS_LAT_DEC_B:
-            _uSendData = _tLatitude.decimalB;
+            uSendData = _tLatitude.decimalB;
             break;
             
         case ADDR_GPS_LAT_DEC_LSB:
-            _uSendData = _tLatitude.decimalLSB;
+            uSendData = _tLatitude.decimalLSB;
             break;
 			
 		case ADDR_TIME_TO_MOW:
-			_uSendData = isTimeToMow();
+			uSendData = isTimeToMow();
             
         default:
-            _uSendData = ADDR_UNKNOWN_DATA;
+            uSendData = ADDR_UNKNOWN_DATA;
             break;
     }
+    return uSendData;
 }
 
 void TWI_start()

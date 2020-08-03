@@ -13,6 +13,7 @@
 #include <avr/io.h>
 
 #define F_CPU 8000000UL
+#define SCL_CLOCK  400000L
 
 /*** Convertisseur Analogique Numérique ***/
 #define PIN_ADC0 0
@@ -47,7 +48,6 @@
 #define ADDR_TIME_TO_MOW 0x16
 #define ADDR_UNKNOWN_DATA 0x00
 
-uint8_t _uSendData;
 /*** END ***/
 
 /*** GPS ***/
@@ -55,7 +55,7 @@ uint8_t _uSendData;
 #define BAUD_PRESCALE ((F_CPU/ (16UL*BAUD))-1)
 #define BUFFER_SIZE 80
 
-uint8_t _uOvfFlag;
+volatile uint8_t _uOvfFlag;
 /*** END ***/
 
 /*** SONAR ***/
@@ -78,7 +78,7 @@ uint8_t _uDistanceSonarFC;
 uint8_t _uDistanceSonarFL;
 uint8_t _uDistanceSonarFR;
 
-uint16_t _uTimerOvfCount;
+volatile uint16_t _uTimerOvfCount;
 /*** END ***/
 
 /*** Capteur Tension ***/
@@ -106,6 +106,6 @@ typedef enum
     ON = 0x01,
     OFF = 0x00
 }Etat;
-Etat _eEtatDock;
+volatile Etat _eEtatDock;
 
 #endif /* constant_h */

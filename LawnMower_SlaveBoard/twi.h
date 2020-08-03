@@ -9,7 +9,7 @@
 #ifndef twi_h
 #define twi_h
 
-void TWI_decodeReceivedData(uint8_t);
+uint8_t TWI_decodeReceivedData(uint8_t);
 void TWI_start(void);
 void TWI_write(uint8_t, uint8_t);
 uint8_t TWI_readACK(void);
