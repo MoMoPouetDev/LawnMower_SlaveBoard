@@ -46,8 +46,20 @@
 #define ADDR_GPS_LAT_DEC_B 0x14
 #define ADDR_GPS_LAT_DEC_LSB 0x15
 #define ADDR_TIME_TO_MOW 0x16
+#define ADDR_LED_STATUS 0x17
 #define ADDR_UNKNOWN_DATA 0x00
 
+/*** END ***/
+
+/*** LED Status ***/
+#define LED_GREEN 0x00 //TBD
+#define LED_ORANGE 0x00 //TBD
+#define LED_RED 0x00 //TBD
+#define LED_YELLOW_1 0x00 //TBD
+#define LED_YELLOW_2 0x00 //TBD
+#define LED_YELLOW_3 0x00 //TBD
+
+volatile uint8_t _uLedStatus;
 /*** END ***/
 
 /*** GPS ***/

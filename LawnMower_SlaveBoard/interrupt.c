@@ -16,9 +16,10 @@
 
 ISR(TWI_vect)
 {
-    uint8_t receivedData = 0,
-            data = 0;
+    uint8_t receivedData = 0;
+    uint8_t data = 0;
     static uint8_t uSendData;
+    static uint8_t flagLed = 0;
     
     switch (TW_STATUS) {
         case TW_SR_SLA_ACK:
@@ -27,8 +28,19 @@ ISR(TWI_vect)
             
         case TW_SR_DATA_ACK:
             receivedData = TWDR;
-            if((data = TWI_decodeReceivedData(receivedData)) != ADDR_UNKNOWN_DATA)
-                uSendData = data;
+            if (!flagLed) {
+                if((data = TWI_decodeReceivedData(receivedData)) != ADDR_UNKNOWN_DATA) {
+                    uSendData = data;
+                }
+                else if (receivedData == ADDR_LED_STATUS) {
+                    flagLed = 1;
+                }
+            }
+            else {
+                _uLedStatus = receivedData;
+                flagLed = 0;
+            }
+            
             TWCR = (1<<TWEN) | (1<<TWINT) | (1<<TWEA)| (1<<TWIE);
             break;
             

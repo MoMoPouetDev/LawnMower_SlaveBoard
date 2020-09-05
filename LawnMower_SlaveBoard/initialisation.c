@@ -81,7 +81,7 @@ void INIT_timer()
 
 void INIT_twi()
 {
-    TWBR = ((F_CPU / SCL_CLOCK) – 16) / 2; //- 400kHz
+    TWBR  = (uint8_t)(( F_CPU  / SCL_CLOCK ) - 16 ) / 2; //- 400kHz
     TWCR = (1<<TWEA) | (1<<TWEN) | (1<<TWIE);
 	TWAR = ADDR_SLAVE_SENSOR;
 }
@@ -114,7 +114,6 @@ void INIT_variable()
 	_uChargeLevel = 0;
 	_uUnderTheRain = 0;
 	_uOvfFlag = 0;
-    _uSendData = 0;
 	_uMinutesGpsAcquisition = 0;
 	_uHoursGpsAcquisition = 0;
 	_uMonthsGpsAcquisition = 0;

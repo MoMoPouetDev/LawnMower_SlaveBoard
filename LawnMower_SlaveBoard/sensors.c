@@ -13,6 +13,7 @@
 #include "sensors.h"
 #include "adc.h"
 #include "gps.h"
+#include "status.h"
 
 uint8_t isDocking()
 {
@@ -37,6 +38,8 @@ void startSensors()
     _uBatteryLevel = ADC_read(PIN_ADC0);
 	_uBatteryPercent = getBatteryPercent(_uBatteryLevel);
     
+    STATUS_updateStatus();
+
     if (ADC_read(PIN_ADC1) <= CHARGING_THRESHOLD)
         _uChargeLevel = 0;
     else
