@@ -29,90 +29,84 @@ void STATUS_updateLedError(ErrorMower* eErrorMower) {
 }
 
 void STATUS_updateLed(EtatMower* eEtatMower, ErrorMower* eErrorMower) {
-    // LED VERT: PB4, ORANGE: PB2, ROUGE: PB1
+    // LED VERT: PD2, ORANGE: PD3, ROUGE: PD4
     switch(*eEtatMower) {
         case UNKNOWN_ETAT:
-            PORTB &= ~(1<<LED_GREEN) & ~(1<<LED_ORANGE) & ~(1<<LED_RED);
+            PORTD &= ~(1<<LED_GREEN) & ~(1<<LED_ORANGE) & ~(1<<LED_RED);
             break;
             
         case TACHE_EN_COURS:
-            PORTB &= ~(1<<LED_ORANGE) & ~(1<<LED_RED);
-            PORTB |= (1<<LED_GREEN);
+            PORTD &= ~(1<<LED_ORANGE) & ~(1<<LED_RED);
+            PORTD |= (1<<LED_GREEN);
             break;
             
         case RETOUR_STATION:
-            PORTB &= ~(1<<LED_GREEN) & ~(1<<LED_RED);
-            PORTB |= (1<<LED_ORANGE);
+            PORTD &= ~(1<<LED_GREEN) & ~(1<<LED_RED);
+            PORTD |= (1<<LED_ORANGE);
             break;
             
         case EN_CHARGE:
-            PORTB &= ~(1<<LED_GREEN) & ~(1<<LED_ORANGE) & ~(1<<LED_RED);
+            PORTD &= ~(1<<LED_GREEN) & ~(1<<LED_ORANGE) & ~(1<<LED_RED);
             _delay_ms(500);
-            PORTB |= (1<<PORT4) | (1<<LED_ORANGE) | (1<<LED_RED);
+            PORTD |= (1<<LED_GREEN) | (1<<LED_ORANGE) | (1<<LED_RED);
             _delay_ms(500);
             break;
             
         case PAS_DE_TACHE_EN_COURS:
-            PORTB &= ~(1<<LED_GREEN) & ~(1<<LED_ORANGE);
-            PORTB |= (1<<LED_RED);
+            PORTD &= ~(1<<LED_GREEN) & ~(1<<LED_ORANGE);
+            PORTD |= (1<<LED_RED);
             break;
             
         case PAUSE:
-            PORTB &= ~(1<<LED_GREEN) & ~(1<<LED_ORANGE) & ~(1<<LED_RED);
+            PORTD &= ~(1<<LED_GREEN) & ~(1<<LED_ORANGE) & ~(1<<LED_RED);
             _delay_ms(500);
-            PORTB |= (1<<LED_GREEN);
+            PORTD |= (1<<LED_GREEN);
             _delay_ms(500);
             break;
             
         default:
-            PORTB &= ~(1<<LED_GREEN) & ~(1<<LED_ORANGE) & ~(1<<LED_RED);
+            PORTD &= ~(1<<LED_GREEN) & ~(1<<LED_ORANGE) & ~(1<<LED_RED);
             break;
     }
     
-    // LED JAUNE1: PB5, JAUNE2: PC2, JAUNE3: PC3
+    // LED JAUNE1: PD5, JAUNE2: PD6, JAUNE3: PD7
     switch(*eErrorMower) {
         case NTR:
-            PORTB &= ~(1<<LED_YELLOW_1);
-            PORTC &= ~(1<<LED_YELLOW_3) & ~(1<<LED_YELLOW_2);
+            PORTD &= ~(1<<LED_YELLOW_1) & ~(1<<LED_YELLOW_2) & ~(1<<LED_YELLOW_3);
             break;
             
         case BLOCKED_MOWER:
-            PORTB &= ~(1<<LED_YELLOW_1);
-            PORTC &= ~(1<<LED_YELLOW_2);
-            PORTC |= (1<<LED_YELLOW_3);
+            PORTD &= ~(1<<LED_YELLOW_1) & ~(1<<LED_YELLOW_2);
+            PORTD |= (1<<LED_YELLOW_3);
             break;
             
         case DETECTED_RAIN:
-            PORTB &= ~(1<<LED_YELLOW_1);
-            PORTC &= ~(1<<LED_YELLOW_3);
-            PORTC |= (1<<LED_YELLOW_2);
+            PORTD &= ~(1<<LED_YELLOW_1) & ~(1<<LED_YELLOW_3);
+            PORTD |= (1<<LED_YELLOW_2);
             break;
             
         case WIRE_NOT_DETECTED:
-            PORTB &= ~(1<<LED_YELLOW_1);
-            PORTC |= (1<<LED_YELLOW_2) | (1<<LED_YELLOW_3);
+            PORTD &= ~(1<<LED_YELLOW_1);
+            PORTD |= (1<<LED_YELLOW_2) | (1<<LED_YELLOW_3);
             break;
             
         case LOW_BATTERY:
-            PORTC &= ~(1<<LED_YELLOW_3) & ~(1<<LED_YELLOW_2);
-            PORTB |= (1<<LED_YELLOW_1);
+            PORTD &= ~(1<<LED_YELLOW_3) & ~(1<<LED_YELLOW_2);
+            PORTD |= (1<<LED_YELLOW_1);
             break;
             
         case VERY_LOW_BATTERY:
-            PORTC &= ~(1<<LED_YELLOW_2);
-            PORTB |= (1<<LED_YELLOW_1);
-            PORTC |= (1<<LED_YELLOW_3);
+            PORTD &= ~(1<<LED_YELLOW_2);
+            PORTD |= (1<<LED_YELLOW_1) | (1<<LED_YELLOW_3);
             break;
             
         case EMPTY_BATTERY:
-            PORTC &= ~(1<<LED_YELLOW_3);
-            PORTB |= (1<<LED_YELLOW_1);
-            PORTC |= (1<<LED_YELLOW_2);
+            PORTD &= ~(1<<LED_YELLOW_3);
+            PORTD |= (1<<LED_YELLOW_1) | (1<<LED_YELLOW_2);
             break;
             
         default:
-            PORTB &= ~(1<<LED_YELLOW_1);
-            PORTC &= ~(1<<LED_YELLOW_3) & ~(1<<LED_YELLOW_2);
+            PORTD &= ~(1<<LED_YELLOW_1) & ~(1<<LED_YELLOW_3) & ~(1<<LED_YELLOW_2);
             break;
     }
 }

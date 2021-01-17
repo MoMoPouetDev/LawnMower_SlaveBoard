@@ -56,13 +56,11 @@ void INIT_io()
     /***** PORT D *****/
     DDRD = 0x00;
     DDRD |= (1<<DDD1); //| (0<<DDD0); // UART - TXD - RXD
-    //DDRD |= (1<<DDD3); // Entrée Docking
-    //DDRD |= (1<<DDD2) | (1<<DDD4) | (1<<DDD5) | (1<<DDD6) | (1<<DDD7); // TBD
+    DDRD |= (1<<DDD2) | (1<<DDD3) | (1<<DDD4) | (1<<DDD5) | (1<<DDD6) | (1<<DDD7); // LED GREEN - ORANGE - RED - YELLOW1 - 2 - 3
     
     PORTD = 0x00;
     //PORTD |= (1<<PORTD0) | (1<<PORTD1); // UART - RX No Pull-Up - TX
-    PORTD |= (1<<PORTD3); // Pull up Docking
-    PORTD |= (1<<PORTD2) | (1<<PORTD4) | (1<<PORTD5) | (1<<PORTD6) | (1<<PORTD7); // TBD - Pull-Up
+    //PORTD |= (1<<PORTD2) | (1<<PORTD3) | (1<<PORTD4) | (1<<PORTD5) | (1<<PORTD6) | (1<<PORTD7); // Force LED 0
 }
 
 void INIT_interrupt()

@@ -52,12 +52,12 @@
 /*** END ***/
 
 /*** LED Status ***/
-#define LED_GREEN 0x00 //TBD
-#define LED_ORANGE 0x00 //TBD
-#define LED_RED 0x00 //TBD
-#define LED_YELLOW_1 0x00 //TBD
-#define LED_YELLOW_2 0x00 //TBD
-#define LED_YELLOW_3 0x00 //TBD
+#define LED_GREEN PORTD2
+#define LED_ORANGE PORTD3
+#define LED_RED PORTD4
+#define LED_YELLOW_1 PORTD5
+#define LED_YELLOW_2 PORTD6
+#define LED_YELLOW_3 PORTD7
 
 volatile uint8_t _uLedStatus;
 /*** END ***/
