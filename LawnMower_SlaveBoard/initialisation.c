@@ -30,15 +30,14 @@ void INIT_io()
     /***** PORT B *****/
     DDRB = 0x00;
     //DDRB |= (0<<DDB0) | (1<<DDB1) | (1<<DDB2) ; // Echo Sonar FC, FL, FR
-    //DDRB |= (1<<DDB3); // TBD
-    DDRB |= (1<<DDB4) | (1<<DDB5) | (1<<DDB6); // Trigger Sonar FC, FL, FR
-    //DDRB  |= (1<<DDB7); // TBD
+    DDRB |= (1<<DDB4) | (1<<DDB5) | (1<<DDB3); // Trigger Sonar FC, FL, FR
+	//DDRB |= (1<<DDB6); // TBD
+    //DDRB |= (1<<DDB7); // TBD
     
     PORTB = 0x00;
-    //PORTB |= (1<<PORTB0) | (1<<PORTB1) | (1<<PORTB2) | (1<<PORTB3); // No Pull-Up Echo Sonar
-    PORTB |= (1<<PORTB3); // TBD - Pull-Up
-    // PORTB &= ~(1<<PORTB4) & ~(1<<PORTB5) & ~(1<<PORTB6) & ~(1<<PORTB7); // Force à 0 Trigger
-    PORTB |= (1<<PORTB7); // TBD - Pull-Up
+    //PORTB |= (1<<PORTB0) | (1<<PORTB1) | (1<<PORTB2); // No Pull-Up Echo Sonar
+    // PORTB &= ~(1<<PORTB4) & ~(1<<PORTB5) & ~(1<<PORTB3); // Force à 0 Trigger
+    PORTB |= (1<<PORTB6) | (1<<PORTB7); // TBD - Pull-Up
     
     /***** PORT C *****/
     DDRC = 0x00;

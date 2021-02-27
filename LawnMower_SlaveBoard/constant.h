@@ -73,7 +73,7 @@ volatile uint8_t _uOvfFlag;
 /*** SONAR ***/
 #define PIN_TRIG_FC PORTB4
 #define PIN_TRIG_FL PORTB5
-#define PIN_TRIG_FR PORTB6
+#define PIN_TRIG_FR PORTB3
 
 #define PIN_ECHO_FC PINB0
 #define PIN_ECHO_FL PINB1
