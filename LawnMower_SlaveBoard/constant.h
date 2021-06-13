@@ -22,7 +22,7 @@
 /*** END ***/
 
 /*** Adresses I2C ***/
-#define ADDR_SLAVE_SENSOR 0x02
+#define ADDR_SLAVE_SENSOR 0x20
 
 #define ADDR_SENSOR_V 0x01
 #define ADDR_SENSOR_A 0x02
@@ -79,31 +79,31 @@ volatile uint8_t _uOvfFlag;
 #define PIN_ECHO_FL PINB1
 #define PIN_ECHO_FR PINB2
 
-#define SONAR_DIST_ERR (uint8_t)999
+#define SONAR_DIST_ERR 999
 #define TIMER1_OVERFLOW 65535
 /*** Calcul of value timer 343 m/s -> 34300 cm/s
  dist = (speedSound*TIMER)/2 = (34300*TIMER)/2 = 17150*TIMER = 17150 * (TIMER_VALUE * 0.125 * 10^-6)
  ***/
 #define TIMER_DISTANCE 466.47
 
-uint8_t _uDistanceSonarFC;
-uint8_t _uDistanceSonarFL;
-uint8_t _uDistanceSonarFR;
+volatile uint8_t _uDistanceSonarFC;
+volatile uint8_t _uDistanceSonarFL;
+volatile uint8_t _uDistanceSonarFR;
 
 volatile uint16_t _uTimerOvfCount;
 /*** END ***/
 
 /*** Capteur Tension ***/
-#define CHARGING_THRESHOLD 100
+#define CHARGING_THRESHOLD 600
 
-uint8_t _uBatteryPercent;
-uint8_t _uChargeLevel;
+volatile uint8_t _uBatteryPercent;
+volatile uint8_t _uChargeLevel;
 /*** END ***/
 
 /*** Capteur Pluie ***/
-#define RAINING_THRESHOLD 10
+#define RAINING_THRESHOLD 500
 
-uint8_t _uUnderTheRain;
+volatile uint8_t _uUnderTheRain;
 /*** END ***/
 
 /*** Time to Mow ***/
@@ -113,11 +113,7 @@ uint8_t _uUnderTheRain;
 
 #define THRESHOLD_8_BITS 0xFE
 
-typedef enum
-{
-    ON = 0x01,
-    OFF = 0x00
-}Etat;
-volatile Etat _eEtatDock;
+volatile uint8_t _uFlagInterrupt;
+volatile uint8_t _uFlagWatchdog;
 
 #endif /* constant_h */

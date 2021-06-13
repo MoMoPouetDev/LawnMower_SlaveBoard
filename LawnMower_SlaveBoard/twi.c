@@ -19,31 +19,27 @@ uint8_t TWI_decodeReceivedData(uint8_t receivedData) {
     uint8_t uSendData;
     switch (receivedData) {
         case ADDR_SENSOR_V:
-            uSendData = _uBatteryPercent;
+            uSendData = SENSORS_getBatteryPercent();
             break;
             
         case ADDR_SENSOR_A:
-            uSendData = _uChargeLevel;
-            break;
-            
-        case ADDR_SENSOR_DOCK:
-            uSendData = _eEtatDock;
+            uSendData = SENSORS_isCharging();
             break;
             
         case ADDR_SENSOR_RAIN:
-            uSendData = _uUnderTheRain;
+            uSendData = SENSORS_isRaining();
             break;
             
         case ADDR_SONAR_FC:
-            uSendData = _uDistanceSonarFC;
+            uSendData = SENSORS_getSonarDistance(PIN_TRIG_FC);
             break;
             
         case ADDR_SONAR_FL:
-            uSendData = _uDistanceSonarFL;
+            uSendData = SENSORS_getSonarDistance(PIN_TRIG_FL);
             break;
             
         case ADDR_SONAR_FR:
-            uSendData = _uDistanceSonarFR;
+            uSendData = SENSORS_getSonarDistance(PIN_TRIG_FR);
             break;
 			
         case ADDR_GPS_TIME_HOURS:
@@ -83,6 +79,7 @@ uint8_t TWI_decodeReceivedData(uint8_t receivedData) {
             break;
             
         case ADDR_GPS_LAT_DEG:
+			GPS_startGpsAcquisition();
             uSendData = _tLatitude.degrees;
             break;
 			
@@ -103,7 +100,8 @@ uint8_t TWI_decodeReceivedData(uint8_t receivedData) {
             break;
 			
 		case ADDR_TIME_TO_MOW:
-			uSendData = isTimeToMow();
+			uSendData = SENSORS_isTimeToMow();
+			break;
             
         default:
             uSendData = ADDR_UNKNOWN_DATA;

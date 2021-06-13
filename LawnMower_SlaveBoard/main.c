@@ -1,23 +1,25 @@
 #include <stdio.h>
 #include <util/delay.h>
+#include <avr/wdt.h>
 
 #include "constant.h"
+#include "gps.h"
 #include "initialisation.h"
 #include "sensors.h"
-#include "gps.h"
 
 int main(void) {
     Initialisation();
     
     while (1)
     {
-        if(!(isDocking()))
+        if(!(SENSORS_isDocking()))
         {
-            startSensors();
+            SENSORS_startSensors();
+			wdt_reset();
         }
 		else
 		{
-			startGpsAcquisitionWhenDocking();
+			GPS_startGpsAcquisitionWhenDocking();
 		}
     }
     return 0; // never reached

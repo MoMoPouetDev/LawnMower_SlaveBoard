@@ -66,26 +66,26 @@ typedef struct {
     uint8_t decimalB;
     uint8_t decimalLSB;
 }Coordinates;
-Coordinates _tLatitude;
-Coordinates _tLongitude;
+volatile Coordinates _tLatitude;
+volatile Coordinates _tLongitude;
 
-uint8_t _uMinutesGpsAcquisition;
-uint8_t _uHoursGpsAcquisition;
-uint8_t _uMonthsGpsAcquisition;
-uint8_t _uDaysGpsAcquisition;
+volatile uint8_t _uMinutesGpsAcquisition;
+volatile uint8_t _uHoursGpsAcquisition;
+volatile uint8_t _uMonthsGpsAcquisition;
+volatile uint8_t _uDaysGpsAcquisition;
 
-void startGpsAcquisition(void);
-void startGpsAcquisitionWhenDocking(void);
-void initBufferNmea(BufferNmea*);
-void initDataRmc(DataNmea_RMC*);
-uint8_t decodeNmeaBuffer(BufferNmea*, DataNmea_RMC*);
-uint8_t decodeNmeaRmc(BufferNmea*, DataNmea_RMC*);
-uint8_t getNmeaUart(BufferNmea*, DataNmea_RMC*);
-uint8_t getNmeaChecksum(char*);
-uint8_t getNmeaBuffer(BufferNmea*, char);
-void decodeNmeaForMaster(DataNmea_RMC*);
-void rmcUtcTime(DataNmea_RMC*);
-void rmcDate(DataNmea_RMC*);
-void rmcLatLong(DataNmea_RMC*);
+void GPS_startGpsAcquisition(void);
+void GPS_startGpsAcquisitionWhenDocking(void);
+void GPS_initBufferNmea(BufferNmea*);
+void GPS_initDataRmc(DataNmea_RMC*);
+uint8_t GPS_decodeNmeaBuffer(BufferNmea*, DataNmea_RMC*);
+uint8_t GPS_decodeNmeaRmc(BufferNmea*, DataNmea_RMC*);
+uint8_t GPS_getNmeaUart(BufferNmea*, DataNmea_RMC*);
+uint8_t GPS_getNmeaChecksum(char*);
+uint8_t GPS_getNmeaBuffer(BufferNmea*, char);
+void GPS_decodeNmeaForMaster(DataNmea_RMC*);
+void GPS_rmcUtcTime(DataNmea_RMC*);
+void GPS_rmcDate(DataNmea_RMC*);
+void GPS_rmcLatLong(DataNmea_RMC*);
 
 #endif /* gps_h */

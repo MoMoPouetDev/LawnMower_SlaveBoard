@@ -14,32 +14,32 @@
 #include "uart.h"
 #include "gps.h"
 
-void startGpsAcquisition() {
+void GPS_startGpsAcquisition() {
 	uint8_t _bDecodeNmea = 0;
 
     BufferNmea _pBuffer;
     DataNmea_RMC _pNmeaRmc;
     
-    initBufferNmea(&_pBuffer);
-	initDataRmc(&_pNmeaRmc);
+    GPS_initBufferNmea(&_pBuffer);
+	GPS_initDataRmc(&_pNmeaRmc);
 	
-	_bDecodeNmea = getNmeaUart(&_pBuffer, &_pNmeaRmc);
+	_bDecodeNmea = GPS_getNmeaUart(&_pBuffer, &_pNmeaRmc);
 	
 	if(_bDecodeNmea) {
-		decodeNmeaForMaster(&_pNmeaRmc);
+		GPS_decodeNmeaForMaster(&_pNmeaRmc);
 	}
 }
 
-void startGpsAcquisitionWhenDocking() {
+void GPS_startGpsAcquisitionWhenDocking() {
 		if(_uOvfFlag)
 		{
-			startGpsAcquisition();
+			GPS_startGpsAcquisition();
 			_uOvfFlag = 0;
 			_uTimerOvfCount = 0;
 		}
 }
 
-void initBufferNmea(BufferNmea *pBuffer) {
+void GPS_initBufferNmea(BufferNmea *pBuffer) {
     for (int i = 0; i < BUFFER_SIZE; i++) {
         pBuffer->data[i] = 0;
     }
@@ -47,7 +47,7 @@ void initBufferNmea(BufferNmea *pBuffer) {
     pBuffer->nmea = 0;
 }
 
-void initDataRmc(DataNmea_RMC *pNmeaRmc) {
+void GPS_initDataRmc(DataNmea_RMC *pNmeaRmc) {
     for (unsigned int i = 0; i<sizeof(pNmeaRmc->utcTime); i++) {
         pNmeaRmc->utcTime[i] = 0;
         pNmeaRmc->utcDate[i] = 0;
@@ -66,7 +66,7 @@ void initDataRmc(DataNmea_RMC *pNmeaRmc) {
     pNmeaRmc->declMagnDir = 0;
 }
 
-uint8_t getNmeaUart(BufferNmea *pBuffer, DataNmea_RMC *pNmeaRmc) {
+uint8_t GPS_getNmeaUart(BufferNmea *pBuffer, DataNmea_RMC *pNmeaRmc) {
 	uint8_t _bTrameNmeaUart = 0;
 	uint8_t _bTrameNmeaBuffer = 0;
 	uint8_t _bDecodeNmeaBuffer = 0;
@@ -95,31 +95,31 @@ uint8_t getNmeaUart(BufferNmea *pBuffer, DataNmea_RMC *pNmeaRmc) {
 	
 	if(_bTrameNmeaUart) {
 		while(_tUartRxBuffer[_cUartRxCounter] != '\n') {
-			_bTrameNmeaBuffer = getNmeaBuffer(pBuffer, _tUartRxBuffer[_cUartRxCounter]);
+			_bTrameNmeaBuffer = GPS_getNmeaBuffer(pBuffer, _tUartRxBuffer[_cUartRxCounter]);
 			_cUartRxCounter++;
 		}
         if(_bTrameNmeaBuffer) {
-            _bTrameNmeaBuffer = getNmeaBuffer(pBuffer, _tUartRxBuffer[_cUartRxCounter]);
+            _bTrameNmeaBuffer = GPS_getNmeaBuffer(pBuffer, _tUartRxBuffer[_cUartRxCounter]);
             if(_bTrameNmeaBuffer) {
-                _bDecodeNmeaBuffer = decodeNmeaBuffer(pBuffer, pNmeaRmc);
+                _bDecodeNmeaBuffer = GPS_decodeNmeaBuffer(pBuffer, pNmeaRmc);
             }
         }
 	}
 	return _bDecodeNmeaBuffer;
 }
 
-uint8_t decodeNmeaBuffer(BufferNmea *pBuffer, DataNmea_RMC *pNmeaRmc) {
+uint8_t GPS_decodeNmeaBuffer(BufferNmea *pBuffer, DataNmea_RMC *pNmeaRmc) {
 	uint8_t _bDecodeRmc = 0;
 	char *ptr = &pBuffer->data[3];
 	
 	if(!(strncmp(ptr, "RMC", 3))) {
-		_bDecodeRmc = decodeNmeaRmc(pBuffer, pNmeaRmc);
+		_bDecodeRmc = GPS_decodeNmeaRmc(pBuffer, pNmeaRmc);
 	}
 	
 	return _bDecodeRmc;
 }
 
-uint8_t decodeNmeaRmc(BufferNmea *pBuffer, DataNmea_RMC *pNmeaRmc) {
+uint8_t GPS_decodeNmeaRmc(BufferNmea *pBuffer, DataNmea_RMC *pNmeaRmc) {
 	uint8_t _bDecodeRmc = 0;
 	uint8_t _cDataBufferCounter = 0;
 	uint8_t _cDataFieldCounter = 0;
@@ -257,7 +257,7 @@ uint8_t decodeNmeaRmc(BufferNmea *pBuffer, DataNmea_RMC *pNmeaRmc) {
 	return _bDecodeRmc;
 }
 
-uint8_t getNmeaChecksum(char *dataChecksum) {
+uint8_t GPS_getNmeaChecksum(char *dataChecksum) {
     char checksum = 0;
     char values[3];
     uint8_t flagStartData = 0;
@@ -286,7 +286,7 @@ uint8_t getNmeaChecksum(char *dataChecksum) {
         return 0;
 }
 
-uint8_t getNmeaBuffer(BufferNmea *pBuffer, char byte) {
+uint8_t GPS_getNmeaBuffer(BufferNmea *pBuffer, char byte) {
     uint8_t packetNmea = 0;
     
     if (byte == '$') {
@@ -336,7 +336,7 @@ uint8_t getNmeaBuffer(BufferNmea *pBuffer, char byte) {
         case NMEA_END:
             if (byte == '\n') {
                 pBuffer->data[pBuffer->indice] = 0;
-                packetNmea = getNmeaChecksum(pBuffer->data);
+                packetNmea = GPS_getNmeaChecksum(pBuffer->data);
             }
             break;
             
@@ -354,15 +354,15 @@ uint8_t getNmeaBuffer(BufferNmea *pBuffer, char byte) {
     return packetNmea;
 }
 
-void decodeNmeaForMaster(DataNmea_RMC *pNmeaRmc) {
+void GPS_decodeNmeaForMaster(DataNmea_RMC *pNmeaRmc) {
 	
-	rmcUtcTime(pNmeaRmc);
-	rmcDate(pNmeaRmc);
-	rmcLatLong(pNmeaRmc);
+	GPS_rmcUtcTime(pNmeaRmc);
+	GPS_rmcDate(pNmeaRmc);
+	GPS_rmcLatLong(pNmeaRmc);
 	
 }
 
-void rmcUtcTime(DataNmea_RMC *pNmeaRmc){
+void GPS_rmcUtcTime(DataNmea_RMC *pNmeaRmc){
     char tabTemp[3] = {0,0,0};
     
     tabTemp[0] = pNmeaRmc->utcTime[0];
@@ -374,7 +374,7 @@ void rmcUtcTime(DataNmea_RMC *pNmeaRmc){
     _uMinutesGpsAcquisition = (atoi(tabTemp));
 }
 
-void rmcDate(DataNmea_RMC *pNmeaRmc){
+void GPS_rmcDate(DataNmea_RMC *pNmeaRmc){
     char tabTemp[3] = {0,0,0};
 
     tabTemp[0] = pNmeaRmc->utcDate[0];
@@ -386,7 +386,7 @@ void rmcDate(DataNmea_RMC *pNmeaRmc){
     _uMonthsGpsAcquisition = (atoi(tabTemp));
 }
 
-void rmcLatLong(DataNmea_RMC *pNmeaRmc) {
+void GPS_rmcLatLong(DataNmea_RMC *pNmeaRmc) {
     /*
      * Format lat ddmm.mmmmm -> dd uint8_t ; mm uint8_t ; mmmmm uint32_t  (uint32)MSB << 16 | (uint32)MiSB << 8 | (uint32)LSB
      * Format long dddmm.mmmmm -> ddd uint8_t ; mm uint8_t ; mmmmm uint32_t (uint32)MSB << 16 | (uint32)MiSB << 8 | (uint32)LSB

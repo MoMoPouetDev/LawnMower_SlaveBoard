@@ -15,15 +15,26 @@
 #include "gps.h"
 #include "status.h"
 
-uint8_t isDocking()
+uint8_t SENSORS_isDocking()
 {
-    if(_eEtatDock == ON)
-        return 1;
-    else
-        return 0;
+    static uint8_t dock = 0;
+	
+	if (ADC_read(PIN_ADC1) >= CHARGING_THRESHOLD) {
+		dock = 1;
+	}
+	else if ( SENSORS_isTimeToMow() ) {
+		dock = 0;
+	}
+	
+	if (dock) {
+		return 1;
+	}
+	else {
+		return 0;
+	}
 }
 
-uint8_t isTimeToMow()
+uint8_t SENSORS_isTimeToMow()
 {
 	if ((THRESHOLD_HOUR_MIN <= _uHoursGpsAcquisition) && (_uHoursGpsAcquisition < THRESHOLD_HOUR_MAX))
 		return 1;
@@ -31,47 +42,37 @@ uint8_t isTimeToMow()
 		return 0;
 }
 
-void startSensors()
+uint8_t SENSORS_isCharging()
 {
-	uint8_t _uBatteryLevel = 0;
-	
-    _uBatteryLevel = ADC_read(PIN_ADC0);
-	_uBatteryPercent = getBatteryPercent(_uBatteryLevel);
-    
-    STATUS_updateStatus();
-
-    if (ADC_read(PIN_ADC1) <= CHARGING_THRESHOLD)
-        _uChargeLevel = 0;
+	if (ADC_read(PIN_ADC1) <= CHARGING_THRESHOLD)
+	    return 0;
     else
-        _uChargeLevel = 1;
-    
-    if (ADC_read(PIN_ADC2) <= RAINING_THRESHOLD)
-        _uUnderTheRain = 0;
-    else
-        _uUnderTheRain = 1;
-    
-    _uDistanceSonarFC = getSonarDistance(PIN_TRIG_FC);
-	if(_uDistanceSonarFC > THRESHOLD_8_BITS)
-		_uDistanceSonarFC = THRESHOLD_8_BITS;
-    _uDistanceSonarFL = getSonarDistance(PIN_TRIG_FL);
-	if(_uDistanceSonarFL > THRESHOLD_8_BITS)
-		_uDistanceSonarFL = THRESHOLD_8_BITS;
-    _uDistanceSonarFR = getSonarDistance(PIN_TRIG_FR);
-	if(_uDistanceSonarFR > THRESHOLD_8_BITS)
-		_uDistanceSonarFR = THRESHOLD_8_BITS;
-	
-	startGpsAcquisition();
+	    return 1;
 }
 
-uint8_t getBatteryPercent(uint8_t battery) {
+uint8_t SENSORS_isRaining()
+{
+    if (ADC_read(PIN_ADC2) <= RAINING_THRESHOLD)
+		return 0;
+    else
+		return 1;
+}
+
+void SENSORS_startSensors()
+{    
+
+}
+
+uint8_t SENSORS_getBatteryPercent() {
+	uint16_t uTension = ADC_read(PIN_ADC0);
 	// 0 -> 1023
 	// 0% -> 100%
-	return ((battery*100)/1023);
+	return ((uTension*100)/1023);
 }
 
-uint8_t getSonarDistance(uint8_t sonarID)
+uint8_t SENSORS_getSonarDistance(uint8_t sonarID)
 {
-    uint8_t distance = SONAR_DIST_ERR;
+    uint32_t distance = SONAR_DIST_ERR;
     uint32_t tempCount = 0;
     uint8_t echoID;
     
@@ -98,9 +99,13 @@ uint8_t getSonarDistance(uint8_t sonarID)
     while(PINB & (1<<echoID));
     tempCount = TCNT1 + (TIMER1_OVERFLOW*_uTimerOvfCount);
     
-    distance = (uint8_t)((double)(tempCount / TIMER_DISTANCE)/2);
+    distance = (tempCount / TIMER_DISTANCE)/2;
     
-    return distance;
+    if(distance > THRESHOLD_8_BITS) {
+	    distance = THRESHOLD_8_BITS;
+	}
+	
+    return (uint8_t)distance;
 }
 
 void myDelayLoop(double delay)

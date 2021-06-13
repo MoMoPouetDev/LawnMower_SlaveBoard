@@ -37,12 +37,17 @@ ISR(TWI_vect)
                 }
             }
             else {
+				STATUS_updateStatus(receivedData);
                 _uLedStatus = receivedData;
                 flagLed = 0;
             }
             
             TWCR = (1<<TWEN) | (1<<TWINT) | (1<<TWEA)| (1<<TWIE);
             break;
+			
+		case TW_SR_STOP:
+			TWCR = (1<<TWIE) | (1<<TWEA) | (1<<TWEN) | (1<<TWINT);
+			break;
             
         case TW_ST_SLA_ACK:
             TWDR = uSendData;
@@ -54,21 +59,13 @@ ISR(TWI_vect)
             break;
             
         case TW_BUS_ERROR:
-            TWCR = (1<<TWEA) | (1<<TWEN) | (1<<TWIE);
+            TWCR = (1<<TWEA) | (1<<TWEN) | (1<<TWIE)| (1<<TWSTO) | (1<<TWINT);
             break;
             
         default:
-            TWCR |= (1<<TWINT) | (1<<TWIE) | (1<<TWEA) | (1<<TWEN);
+            TWCR = (1<<TWINT) | (1<<TWIE) | (1<<TWEA) | (1<<TWEN);
             break;
     }
-}
-
-ISR(PCINT2_vect)
-{
-    if(!(PIND & (1<<PIND3)))
-        _eEtatDock = ON;
-    else if((PIND & (1<<PIND3)))
-        _eEtatDock = OFF;
 }
 
 ISR(TIMER1_OVF_vect)
@@ -76,4 +73,9 @@ ISR(TIMER1_OVF_vect)
     _uTimerOvfCount++;
 	if(_uTimerOvfCount == 0xFFFF)
 		_uOvfFlag = 1;
+}
+
+ISR(WDT_vect) {
+	_uFlagWatchdog = 1;
+	WDTCSR |= (1<<WDIE);
 }

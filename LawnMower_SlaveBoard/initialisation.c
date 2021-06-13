@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <avr/wdt.h>
 
 #include "constant.h"
 #include "initialisation.h"
@@ -19,6 +20,7 @@ void Initialisation()
     INIT_io();
     INIT_variable();
     INIT_twi();
+	INIT_wdt();
     INIT_uart();
     INIT_adc();
     INIT_timer();
@@ -43,7 +45,7 @@ void INIT_io()
     DDRC = 0x00;
     //DDRC |= (1<<DDC0) | (1<<DDC1) | (1<<DDC2); // ADC - Capteur Tension, courant, pluie
     //DDRC |= (1<<DDC3); // TBD
-    DDRC |= (1<<DDC4) | (1<<DDC5); // Config I2C SDA - SCL
+    //DDRC |= (1<<DDC4) | (1<<DDC5); // Config I2C SDA - SCL
     //DDRC |= (1<<DDC6); // TBD
     
     PORTC = 0x00;
@@ -54,7 +56,7 @@ void INIT_io()
     
     /***** PORT D *****/
     DDRD = 0x00;
-    DDRD |= (1<<DDD1); //| (0<<DDD0); // UART - TXD - RXD
+    //DDRD |= (1<<DDD1); //| (0<<DDD0); // UART - TXD - RXD
     DDRD |= (1<<DDD2) | (1<<DDD3) | (1<<DDD4) | (1<<DDD5) | (1<<DDD6) | (1<<DDD7); // LED GREEN - ORANGE - RED - YELLOW1 - 2 - 3
     
     PORTD = 0x00;
@@ -64,8 +66,6 @@ void INIT_io()
 
 void INIT_interrupt()
 {
-    PCICR |= (1<<PCIE2); // Activation des Interruptions sur PCINT[23:16]
-    PCMSK2 |= (1<<PCINT19); // Active interruptons sur PCINT19
     sei();
 }
 
@@ -78,9 +78,17 @@ void INIT_timer()
 
 void INIT_twi()
 {
-    TWBR  = (uint8_t)(( F_CPU  / SCL_CLOCK ) - 16 ) / 2; //- 400kHz
-    TWCR = (1<<TWEA) | (1<<TWEN) | (1<<TWIE);
-	TWAR = ADDR_SLAVE_SENSOR;
+    TWAR = ADDR_SLAVE_SENSOR;
+    TWCR = (1<<TWEA) | (1<<TWEN) | (1<<TWINT) | (1<<TWIE);
+}
+
+void INIT_wdt()
+{
+	cli();
+	wdt_reset();
+	WDTCSR |= (1<<WDCE) | (1<<WDE);
+	WDTCSR = (1<<WDIE) | (1<<WDP2) | (1<<WDP1); //1s
+	sei();
 }
 
 void INIT_uart()
@@ -103,14 +111,9 @@ void INIT_adc()
 
 void INIT_variable()
 {
-	_uDistanceSonarFC = 0;
-	_uDistanceSonarFL = 0;
-	_uDistanceSonarFR = 0;
-	_uTimerOvfCount = 0;
-	_uBatteryPercent = 0;
-	_uChargeLevel = 0;
-	_uUnderTheRain = 0;
 	_uOvfFlag = 0;
+	_uFlagInterrupt = 0;
+	_uFlagWatchdog = 0;
 	_uMinutesGpsAcquisition = 0;
 	_uHoursGpsAcquisition = 0;
 	_uMonthsGpsAcquisition = 0;

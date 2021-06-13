@@ -9,13 +9,13 @@
 #ifndef sensors_h
 #define sensors_h
 
-uint8_t isDocking(void);
-uint8_t isCharging(void);
-uint8_t isTimeToMow(void);
-uint8_t isRaining(void);
-void startSensors(void);
-uint8_t getBatteryPercent(uint8_t);
-uint8_t getSonarDistance(uint8_t);
+uint8_t SENSORS_isDocking(void);
+uint8_t SENSORS_isCharging(void);
+uint8_t SENSORS_isTimeToMow(void);
+uint8_t SENSORS_isRaining(void);
+void SENSORS_startSensors(void);
+uint8_t SENSORS_getBatteryPercent();
+uint8_t SENSORS_getSonarDistance(uint8_t);
 void myDelayLoop(double);
 
 #endif /* sensors_h */
