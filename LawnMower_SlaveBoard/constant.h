@@ -59,7 +59,6 @@
 #define LED_YELLOW_2 PORTD6
 #define LED_YELLOW_3 PORTD7
 
-volatile uint8_t _uLedStatus;
 /*** END ***/
 
 /*** GPS ***/
@@ -79,16 +78,13 @@ volatile uint8_t _uOvfFlag;
 #define PIN_ECHO_FL PINB1
 #define PIN_ECHO_FR PINB2
 
-#define SONAR_DIST_ERR 999
+#define SONAR_DIST_ERR 255
 #define TIMER1_OVERFLOW 65535
 /*** Calcul of value timer 343 m/s -> 34300 cm/s
  dist = (speedSound*TIMER)/2 = (34300*TIMER)/2 = 17150*TIMER = 17150 * (TIMER_VALUE * 0.125 * 10^-6)
  ***/
 #define TIMER_DISTANCE 466.47
 
-volatile uint8_t _uDistanceSonarFC;
-volatile uint8_t _uDistanceSonarFL;
-volatile uint8_t _uDistanceSonarFR;
 
 volatile uint16_t _uTimerOvfCount;
 /*** END ***/
@@ -96,14 +92,11 @@ volatile uint16_t _uTimerOvfCount;
 /*** Capteur Tension ***/
 #define CHARGING_THRESHOLD 600
 
-volatile uint8_t _uBatteryPercent;
-volatile uint8_t _uChargeLevel;
 /*** END ***/
 
 /*** Capteur Pluie ***/
 #define RAINING_THRESHOLD 500
 
-volatile uint8_t _uUnderTheRain;
 /*** END ***/
 
 /*** Time to Mow ***/
@@ -113,7 +106,6 @@ volatile uint8_t _uUnderTheRain;
 
 #define THRESHOLD_8_BITS 0xFE
 
-volatile uint8_t _uFlagInterrupt;
 volatile uint8_t _uFlagWatchdog;
 
 #endif /* constant_h */

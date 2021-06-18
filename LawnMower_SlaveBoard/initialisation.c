@@ -112,7 +112,6 @@ void INIT_adc()
 void INIT_variable()
 {
 	_uOvfFlag = 0;
-	_uFlagInterrupt = 0;
 	_uFlagWatchdog = 0;
 	_uMinutesGpsAcquisition = 0;
 	_uHoursGpsAcquisition = 0;
