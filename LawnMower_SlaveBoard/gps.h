@@ -75,7 +75,6 @@ volatile uint8_t _uMonthsGpsAcquisition;
 volatile uint8_t _uDaysGpsAcquisition;
 
 void GPS_startGpsAcquisition(void);
-void GPS_startGpsAcquisitionWhenDocking(void);
 void GPS_initBufferNmea(BufferNmea*);
 void GPS_initDataRmc(DataNmea_RMC*);
 uint8_t GPS_decodeNmeaBuffer(BufferNmea*, DataNmea_RMC*);

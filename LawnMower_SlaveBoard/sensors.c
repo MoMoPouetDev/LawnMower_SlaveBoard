@@ -15,25 +15,6 @@
 #include "gps.h"
 #include "status.h"
 
-uint8_t SENSORS_isDocking()
-{
-    static uint8_t dock = 0;
-	
-	if (ADC_read(PIN_ADC1) >= CHARGING_THRESHOLD) {
-		dock = 1;
-	}
-	else if ( SENSORS_isTimeToMow() ) {
-		dock = 0;
-	}
-	
-	if (dock) {
-		return 1;
-	}
-	else {
-		return 0;
-	}
-}
-
 uint8_t SENSORS_isTimeToMow()
 {
 	if ((THRESHOLD_HOUR_MIN <= _uHoursGpsAcquisition) && (_uHoursGpsAcquisition < THRESHOLD_HOUR_MAX))
@@ -56,11 +37,6 @@ uint8_t SENSORS_isRaining()
 		return 0;
     else
 		return 1;
-}
-
-void SENSORS_startSensors()
-{    
-
 }
 
 uint8_t SENSORS_getBatteryPercent() {

@@ -12,15 +12,7 @@ int main(void) {
     
     while (1)
     {
-        if(!(SENSORS_isDocking()))
-        {
-            SENSORS_startSensors();
-			wdt_reset();
-        }
-		else
-		{
-			GPS_startGpsAcquisitionWhenDocking();
-		}
+
     }
     return 0; // never reached
 }

@@ -30,15 +30,6 @@ void GPS_startGpsAcquisition() {
 	}
 }
 
-void GPS_startGpsAcquisitionWhenDocking() {
-		if(_uOvfFlag)
-		{
-			GPS_startGpsAcquisition();
-			_uOvfFlag = 0;
-			_uTimerOvfCount = 0;
-		}
-}
-
 void GPS_initBufferNmea(BufferNmea *pBuffer) {
     for (int i = 0; i < BUFFER_SIZE; i++) {
         pBuffer->data[i] = 0;
