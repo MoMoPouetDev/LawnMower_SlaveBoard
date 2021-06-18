@@ -30,9 +30,9 @@ typedef enum {
     EMPTY_BATTERY = 0x70
 }ErrorMower;
 
-void STATUS_updateStatus(void);
-void STATUS_updateLedStatus(EtatMower*);
-void STATUS_updateLedError(ErrorMower*);
+void STATUS_updateStatus(uint8_t);
+void STATUS_updateLedStatus(EtatMower*, uint8_t);
+void STATUS_updateLedError(ErrorMower*, uint8_t);
 void STATUS_updateLed(EtatMower*, ErrorMower*);
 
 #endif /* status_h */

@@ -9,23 +9,23 @@
 #include "status.h"
 #include <util/delay.h>
 
-void STATUS_updateStatus() {
+void STATUS_updateStatus(uint8_t dataTWI) {
     EtatMower eEtatMower;
     ErrorMower eErrorMower;
     
-    STATUS_updateLedStatus(&eEtatMower);
-    STATUS_updateLedError(&eErrorMower);
+    STATUS_updateLedStatus(&eEtatMower, dataTWI);
+    STATUS_updateLedError(&eErrorMower, dataTWI);
     STATUS_updateLed(&eEtatMower, &eErrorMower);
 }
 
-void STATUS_updateLedStatus(EtatMower* eEtatMower) {
+void STATUS_updateLedStatus(EtatMower* eEtatMower, uint8_t uLedStatus) {
     
-    *eEtatMower = _uLedStatus & 0x0F;
+    *eEtatMower = uLedStatus & 0x0F;
 }
 
-void STATUS_updateLedError(ErrorMower* eErrorMower) {
+void STATUS_updateLedError(ErrorMower* eErrorMower, uint8_t uLedStatus) {
     
-    *eErrorMower = _uLedStatus & 0xF0;
+    *eErrorMower = uLedStatus & 0xF0;
 }
 
 void STATUS_updateLed(EtatMower* eEtatMower, ErrorMower* eErrorMower) {

@@ -12,6 +12,7 @@
 #include <util/twi.h>
 
 #include "constant.h"
+#include "status.h"
 #include "twi.h"
 
 ISR(TWI_vect)
@@ -29,7 +30,7 @@ ISR(TWI_vect)
         case TW_SR_DATA_ACK:
             receivedData = TWDR;
             if (!flagLed) {
-                if((data = TWI_decodeReceivedData(receivedData)) != ADDR_UNKNOWN_DATA) {
+                if((data = TWI_decodeReceivedData(receivedData)) != ADDR_LED_STATUS) {
                     uSendData = data;
                 }
                 else if (receivedData == ADDR_LED_STATUS) {
@@ -38,7 +39,6 @@ ISR(TWI_vect)
             }
             else {
 				STATUS_updateStatus(receivedData);
-                _uLedStatus = receivedData;
                 flagLed = 0;
             }
             
