@@ -31,14 +31,6 @@ uint8_t SENSORS_isCharging()
 	    return 1;
 }
 
-uint8_t SENSORS_isRaining()
-{
-    if (ADC_read(PIN_ADC2) <= RAINING_THRESHOLD)
-		return 0;
-    else
-		return 1;
-}
-
 /**********************************************/
 //	0%   | 9     | 1,8   | 368,0981595
 //	5%   | 9,9   | 1,98  | 404,9079755
@@ -67,18 +59,18 @@ uint8_t SENSORS_getBatteryPercent() {
 	else if(uTension >= 405 && uTension < 442) { uPourcentage = 10; }
 	else if(uTension >= 442 && uTension < 448) { uPourcentage = 15; }
 	else if(uTension >= 448 && uTension < 454) { uPourcentage = 20; }
-	else if(uTension >= 454 && uTension < 460) { uPourcentage = 25; }
-	else if(uTension >= 460 && uTension < 465) { uPourcentage = 30; }
-	else if(uTension >= 465 && uTension < 470) { uPourcentage = 40; }
-	else if(uTension >= 470 && uTension < 475) { uPourcentage = 50; }
-	else if(uTension >= 475 && uTension < 481) { uPourcentage = 60; }
-	else if(uTension >= 481 && uTension < 484) { uPourcentage = 70; }
-	else if(uTension >= 484 && uTension < 487) { uPourcentage = 75; }
-	else if(uTension >= 487 && uTension < 495) { uPourcentage = 80; }
-	else if(uTension >= 495 && uTension < 503) { uPourcentage = 85; }
-	else if(uTension >= 503 && uTension < 509) { uPourcentage = 90; }
-	else if(uTension >= 509 && uTension < 515) { uPourcentage = 95; }
-	else if(uTension >= 515) { uPourcentage = 100; }
+	else if(uTension >= 454 && uTension < 457) { uPourcentage = 25; }
+	else if(uTension >= 457 && uTension < 460) { uPourcentage = 30; }
+	else if(uTension >= 460 && uTension < 465) { uPourcentage = 40; }
+	else if(uTension >= 465 && uTension < 470) { uPourcentage = 50; }
+	else if(uTension >= 470 && uTension < 475) { uPourcentage = 60; }
+	else if(uTension >= 475 && uTension < 481) { uPourcentage = 70; }
+	else if(uTension >= 481 && uTension < 484) { uPourcentage = 75; }
+	else if(uTension >= 484 && uTension < 487) { uPourcentage = 80; }
+	else if(uTension >= 487 && uTension < 495) { uPourcentage = 85; }
+	else if(uTension >= 495 && uTension < 503) { uPourcentage = 90; }
+	else if(uTension >= 503 && uTension < 509) { uPourcentage = 95; }
+	else if(uTension >= 509) { uPourcentage = 100; }
 	
 	return uPourcentage;
 }
@@ -98,7 +90,7 @@ uint8_t SENSORS_getSonarDistance(uint8_t sonarID)
     else
     {
         echoID = PINB0;
-        return SONAR_DIST_ERR;
+        return (uint8_t)SONAR_DIST_ERR;
     }
     
     _uTimerOvfCount = 0;
