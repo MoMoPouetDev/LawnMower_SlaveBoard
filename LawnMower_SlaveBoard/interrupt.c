@@ -24,6 +24,7 @@ ISR(TWI_vect)
     
     switch (TW_STATUS) {
         case TW_SR_SLA_ACK:
+            _uFlagInterrupt = 1;
             TWCR = (1<<TWEN) | (1<<TWINT) | (1<<TWEA) | (1<<TWIE);
             break;
             
@@ -39,6 +40,7 @@ ISR(TWI_vect)
             }
             else {
 				STATUS_updateStatus(receivedData);
+                _uLedStatus = receivedData;
                 flagLed = 0;
             }
             
@@ -56,14 +58,17 @@ ISR(TWI_vect)
             
         case TW_ST_DATA_NACK:
             TWCR = (1<<TWEN) | (1<<TWINT) | (1<<TWIE) | (1<<TWEA);
+            _uFlagInterrupt = 0;
             break;
             
         case TW_BUS_ERROR:
             TWCR = (1<<TWEA) | (1<<TWEN) | (1<<TWIE)| (1<<TWSTO) | (1<<TWINT);
+            _uFlagInterrupt = 0;
             break;
             
         default:
             TWCR = (1<<TWINT) | (1<<TWIE) | (1<<TWEA) | (1<<TWEN);
+            _uFlagInterrupt = 0;
             break;
     }
 }
@@ -71,8 +76,9 @@ ISR(TWI_vect)
 ISR(TIMER1_OVF_vect)
 {
     _uTimerOvfCount++;
-	if(_uTimerOvfCount == 0xFFFF)
+	if(_uTimerOvfCount == 0xFFFF) {
 		_uOvfFlag = 1;
+    }
 }
 
 ISR(WDT_vect) {

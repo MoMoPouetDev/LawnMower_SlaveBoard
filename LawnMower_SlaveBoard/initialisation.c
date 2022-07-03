@@ -33,26 +33,28 @@ void INIT_io()
     DDRB = 0x00;
     //DDRB |= (0<<DDB0) | (1<<DDB1) | (1<<DDB2) ; // Echo Sonar FC, FL, FR
     DDRB |= (1<<DDB4) | (1<<DDB5) | (1<<DDB3); // Trigger Sonar FC, FL, FR
-	//DDRB |= (1<<DDB6); // TBD
-    //DDRB |= (1<<DDB7); // TBD
+	//DDRB |= (1<<DDB6); // XTAL
+    //DDRB |= (1<<DDB7); // XTAL
     
     PORTB = 0x00;
     //PORTB |= (1<<PORTB0) | (1<<PORTB1) | (1<<PORTB2); // No Pull-Up Echo Sonar
     // PORTB &= ~(1<<PORTB4) & ~(1<<PORTB5) & ~(1<<PORTB3); // Force à 0 Trigger
-    PORTB |= (1<<PORTB6) | (1<<PORTB7); // TBD - Pull-Up
+    PORTB |= (1<<PORTB6) | (1<<PORTB7); // XTAL
     
     /***** PORT C *****/
     DDRC = 0x00;
-    //DDRC |= (1<<DDC0) | (1<<DDC1) | (1<<DDC2); // ADC - Capteur Tension, courant, pluie
-    //DDRC |= (1<<DDC3); // TBD
+    //DDRC |= (1<<DDC0) | (1<<DDC1) // ADC - Capteur Tension, courant
+    //DDRC |= (1<<DDC2); // Pluie - No Use
+    //DDRC |= (1<<DDC3); // SPARE ADC - No Use
     //DDRC |= (1<<DDC4) | (1<<DDC5); // Config I2C SDA - SCL
-    //DDRC |= (1<<DDC6); // TBD
+    //DDRC |= (1<<DDC6); // reset
     
     PORTC = 0x00;
-    //PORTC &= ~(1<<PORTC0) & ~(1<<PORTC1) & ~(1<<PORTC2); // ADC - No Pull-Up
-    PORTC |= (1<<PORTC3); // TBD - Pull-Up
+    //PORTC &= ~(1<<PORTC0) & ~(1<<PORTC1); // ADC - No Pull-Up
+    DDRC &= (1<<DDC2); // Pluie - No Use
+    PORTC |= (1<<PORTC3); // SPARE ADC - No Use
     //PORTC &= ~(1<<PORTC4) & ~(1<<PORTC5); // I2C - Force à 0
-    PORTC |= (1<<PORTC6); // TBD - Pull-Up
+    PORTC |= (1<<PORTC6); // reset
     
     /***** PORT D *****/
     DDRD = 0x00;
@@ -111,8 +113,19 @@ void INIT_adc()
 
 void INIT_variable()
 {
+    _uDistanceSonarFC = 255;
+    _uDistanceSonarFL = 255;
+    _uDistanceSonarFR = 255;
+
+    _uBatteryPercent = 0;
+    _uChargeLevel = 0;
+    _uUnderTheRain = 0;
+
+    _uFlagInterrupt = 0;
 	_uOvfFlag = 0;
+    _uTimerOvfCount = 0;
 	_uFlagWatchdog = 0;
+
 	_uMinutesGpsAcquisition = 0;
 	_uHoursGpsAcquisition = 0;
 	_uMonthsGpsAcquisition = 0;
