@@ -1,0 +1,18 @@
+{
+    "files.associations": {
+        "lld_gpio.h": "c",
+        "lld_i2c.h": "c",
+        "run_i2c.h": "c",
+        "hal_i2c.h": "c",
+        "lld_uart.h": "c",
+        "hal_uart.h": "c",
+        "gps.h": "c",
+        "hal_gps.h": "c",
+        "run_sensors.h": "c",
+        "lld_timer.h": "c",
+        "hal_gpio.h": "c",
+        "hal_timer.h": "c",
+        "lld_adc.h": "c",
+        "run_task_interface.h": "c"
+    }
+}

@@ -1,0 +1,38 @@
+/**
+ * @file LLD_TIMER.c
+ * @author MVE
+ * @brief Specific TIMER driver
+ * @details
+**/
+
+/*--------------------------------------------------------------------------*/
+/*! ... INCLUDES ...                                                        */
+/*--------------------------------------------------------------------------*/
+#include <stdint.h>
+#include <avr/io.h>
+
+#include "LLD_TIMER.h"
+
+/*--------------------------------------------------------------------------*/
+/* ... DATATYPES ...                                                    */
+/*--------------------------------------------------------------------------*/
+
+/*--------------------------------------------------------------------------*/
+/*! ... LOCAL FUNCTIONS DECLARATIONS ...                                    */
+/*--------------------------------------------------------------------------*/
+
+/*--------------------------------------------------------------------------*/
+/*! ... FUNCTIONS DEFINITIONS ...                                    */
+/*--------------------------------------------------------------------------*/
+void LLD_Timer_Init(void)
+{
+	/* Init Timer 0 for Sonar Calculation */
+	//CS0[2:0] CS00 HIGH to launch with no prescal CS00 LOW to stop counter in TCCR0B
+	TCCR0B |= (1<<CS00);
+	TIMSK0 |= (1<<TOIE0); // Enable overflow counter
+	
+    /* Init Timer 1 for Run Task tick */
+	TCCR1B |= (1<<WGM12) | (1<<CS10); // CTC and No Prescale
+	OCR1A = 0x1F40; // 16 bit
+	TIMSK1 |= (1<<OCIE1A); // Enable Timer 1 Output Compare A Match Interrupt
+}

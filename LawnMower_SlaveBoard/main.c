@@ -1,11 +1,18 @@
 #include <stdio.h>
-#include <avr/io.h>
-#include <avr/interrupt.h>
 #include <util/delay.h>
+#include <avr/wdt.h>
 
+#include "constant.h"
+#include "gps.h"
+#include "initialisation.h"
+#include "sensors.h"
 
 int main(void) {
-	while (1) {
-	}
-	return 0; // never reached
+    Initialisation();
+    
+    while (1)
+    {
+
+    }
+    return 0; // never reached
 }
