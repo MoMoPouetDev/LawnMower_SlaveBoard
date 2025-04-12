@@ -13,6 +13,8 @@
         "hal_gpio.h": "c",
         "hal_timer.h": "c",
         "lld_adc.h": "c",
-        "run_task_interface.h": "c"
+        "run_task_interface.h": "c",
+        "run_gps.h": "c",
+        "run_uart.h": "c"
     }
 }

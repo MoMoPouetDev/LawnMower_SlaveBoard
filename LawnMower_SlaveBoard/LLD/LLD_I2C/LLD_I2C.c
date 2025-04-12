@@ -9,13 +9,14 @@
 /*! ... INCLUDES ...                                                        */
 /*--------------------------------------------------------------------------*/
 #include <stdint.h>
+#include <avr/interrupt.h>
 #include <util/twi.h>
 
 #include "LLD_I2C.h"
 /*--------------------------------------------------------------------------*/
 /* ... DATATYPES LLD I2C ...                                                */
 /*--------------------------------------------------------------------------*/
-static lld_i2c_callback_t gpf_callback
+static lld_i2c_callback_t gpf_callback;
 static volatile uint8_t gu8_flagInterrupt;
 /*--------------------------------------------------------------------------*/
 /*! ... LOCAL FUNCTIONS DECLARATIONS ...                                    */
@@ -43,7 +44,7 @@ ISR(TWI_vect)
             
         case TW_SR_DATA_ACK:
             u8_receivedData = TWDR;
-            gpf_callback(&u8_receivedData, &_u8_sendData);
+            gpf_callback(u8_receivedData, &_u8_sendData);
             
             TWCR = (1<<TWEN) | (1<<TWINT) | (1<<TWEA)| (1<<TWIE);
             break;

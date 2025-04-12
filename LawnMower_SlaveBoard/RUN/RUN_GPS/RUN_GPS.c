@@ -134,7 +134,6 @@ static uint8_t _RUN_GPS_getNmeaUart(BufferNmea *pBuffer, DataNmea_RMC *pNmeaRmc)
 	static uint8_t _cUartRxCounter = 0;
 	uint8_t _bTrameNmeaBuffer = 0;
 	uint8_t _bDecodeNmeaBuffer = 0;
-	uint8_t _cUartRxCounter = 0;
     uint8_t u8_returnValueUART = 0;
 	
 	switch (_u8_gpsState)
@@ -203,7 +202,7 @@ static uint8_t _RUN_GPS_decodeNmeaBuffer(BufferNmea *pBuffer, DataNmea_RMC *pNme
 	char *ptr = &pBuffer->data[3];
 	
 	if(!(strncmp(ptr, "RMC", 3))) {
-		_bDecodeRmc = RUN_GPS_decodeNmeaRmc(pBuffer, pNmeaRmc);
+		_bDecodeRmc = _RUN_GPS_decodeNmeaRmc(pBuffer, pNmeaRmc);
 	}
 	
 	return _bDecodeRmc;
@@ -428,7 +427,7 @@ static uint8_t _RUN_GPS_getNmeaBuffer(BufferNmea *pBuffer, char byte)
         case NMEA_END:
             if (byte == '\n') {
                 pBuffer->data[pBuffer->indice] = 0;
-                packetNmea = RUN_GPS_getNmeaChecksum(pBuffer->data);
+                packetNmea = _RUN_GPS_getNmeaChecksum(pBuffer->data);
             }
             break;
             

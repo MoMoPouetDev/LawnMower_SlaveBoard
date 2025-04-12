@@ -18,27 +18,24 @@
 /*--------------------------------------------------------------------------*/
 /* ... DATAS TYPE ...                                                       */
 /*--------------------------------------------------------------------------*/
-uint8_t gu8_startButtonState;
+
 /*--------------------------------------------------------------------------*/
 /*! ... LOCAL FUNCTIONS DECLARATIONS ...                                    */
 /*--------------------------------------------------------------------------*/
 void FSM_Init_Init(void);
-void FSM_Init_GetFlagStartButton(uint32_t u32_CyclicTask);
 /*---------------------------------------------------------------------------*/
 /* ... FUNCTIONS DEFINITIONS...                                              */
 /*---------------------------------------------------------------------------*/
 void FSM_Init_Init()
 {
-	gu8_startButtonState = 0;
+	
 }
 
 void FSM_Init(S_MOWER_FSM_STATE e_FSM_Init_State)
 {
-	uint32_t u32_CyclicTask;
 	/***************************************************************************************************************/
 	/*                                      MANAGE RUN TASK CYCLE                                                  */
 	/***************************************************************************************************************/
-	u32_CyclicTask = RUN_Task_GetCyclicTask();
 
 	/***************************************************************************************************************/
 	/*                                  ACU FINITE STATE MACHINE                                                   */
@@ -49,7 +46,6 @@ void FSM_Init(S_MOWER_FSM_STATE e_FSM_Init_State)
 	  	default:
 	  	case S_SUP_INIT_Init:
 			FSM_Init_Init();
-			FSM_Init_GetFlagStartButton(u32_CyclicTask);
 			
 			FSM_Enum_SetFsmPhase(S_SUP_OPERATIVE_Init);
 			break;

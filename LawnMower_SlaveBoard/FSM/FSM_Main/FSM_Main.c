@@ -24,7 +24,7 @@ S_MOWER_FSM_STATE ge_FSM_Phase;
 /*--------------------------------------------------------------------------*/
 /*! ... LOCAL FUNCTIONS DECLARATIONS ...                                    */
 /*--------------------------------------------------------------------------*/
-
+void _FSM_Main_UpdateFsmMower(void);
 /*---------------------------------------------------------------------------*/
 /* ... FUNCTIONS DEFINITIONS...                                              */
 /*---------------------------------------------------------------------------*/
@@ -51,12 +51,9 @@ void FSM_Main( void )
 {
    while(1)
    {
-		uint32_t u32_CyclicTask;
 	/***************************************************************************************************************/
 	/*                                      MANAGE RUN TASK CYCLE                                                  */
 	/***************************************************************************************************************/
-
-		u32_CyclicTask = RUN_Task_GetCyclicTask();
 		
       /***************************************************************************************************************/
       /*                                  DEBUG                                                   */
@@ -75,11 +72,11 @@ void FSM_Main( void )
 		{
 			FSM_Operative( ge_FSM_Phase );
 		}
-		FSM_Main_UpdateFsmMower();
+		_FSM_Main_UpdateFsmMower();
    }
 }
 
-void FSM_Main_UpdateFsmMower()
+void _FSM_Main_UpdateFsmMower(void)
 {
 	ge_FSM_Phase = FSM_Enum_GetFsmPhase();
 }

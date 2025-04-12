@@ -47,5 +47,7 @@ typedef enum
 /*--------------------------------------------------------------------------*/
 void HAL_GPIO_Init(void);
 void HAL_GPIO_UpdateLed(EtatMower e_etatMower, ErrorMower e_errorMower);
+void HAL_GPIO_WritePinSonar(GPIO e_gpio, uint8_t u8_value);
+uint8_t HAL_GPIO_ReadPinSonar(GPIO e_gpio);
 
 #endif /* HAL_HAL_GPIO_HAL_GPIO_H_ */

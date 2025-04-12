@@ -11,20 +11,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <avr/interrupt.h>
 #include "HAL_GPIO.h"
 #include "HAL_ADC.h"
 #include "RUN_Sensors.h"
+#include "RUN_FIFO.h"
+#include "RUN_GPS.h"
 
 /*--------------------------------------------------------------------------*/
 /* ... DATATYPES ...                                                        */
 /*--------------------------------------------------------------------------*/
-#define SONAR_DIST_ERR 999
-#define TIMER1_OVERFLOW 65535
-/*** Calcul of value timer 343 m/s -> 34300 cm/s
- dist = (speedSound*TIMER)/2 = (34300*TIMER)/2 = 17150*TIMER = 17150 * (TIMER_VALUE * 0.125 * 10^-6)
- ***/
-#define TIMER_DISTANCE 466.47
-
 static uint8_t gu8_distanceSonarFC;
 static uint8_t gu8_distanceSonarFL;
 static uint8_t gu8_distanceSonarFR;
@@ -54,7 +50,7 @@ void RUN_Sensors_Init(void)
 	_RUN_Sensors_SonarInit();
 }
 
-void RUN_Sensors_IsTimeToMow(void)
+uint8_t RUN_Sensors_IsTimeToMow(void)
 {
 	uint8_t u8_returnValue = 0;
 	uint8_t u8_hours;
@@ -164,56 +160,66 @@ static void _RUN_Sensors_SonarInit(void)
 
 void RUN_Sensors_SonarDistance(void)
 {
-    static uint8_t u8_sonarState = 0;
+    static uint8_t _u8_sonarState = 0;
+    static uint8_t _u8_distanceSonarFC = 255;
+    static uint8_t _u8_distanceSonarFL = 255;
+    static uint8_t _u8_distanceSonarFR = 255;
     uint8_t u8_echoState = 0;
     uint32_t u32_distance = 0;
 
-    switch (u8_sonarState)
+    switch (_u8_sonarState)
     {
         case 0:
-            HAL_Sonar_SendPulse(E_CENTER_TRIGGER);
-            u8_sonarState++;
+            _RUN_Sensors_SonarSendPulse(E_CENTER_TRIGGER);
+            _u8_sonarState++;
             break;
 
         case 1:
-            u8_echoState = HAL_Sonar_DistanceCalculation(E_CENTER_TRIGGER, &u32_distance);
+            u8_echoState = _RUN_Sensors_SonarDistanceCalculation(E_CENTER_TRIGGER, &u32_distance);
             if (u8_echoState == 1)
             {
-                gu8_distanceSonarFC = (uint8_t)u32_distance;
-                u8_sonarState++;
+                _u8_distanceSonarFC = (uint8_t)u32_distance;
+                _u8_sonarState++;
             }
             break;
 
         case 2:
-            HAL_Sonar_SendPulse(E_LEFT_TRIGGER);
-            u8_sonarState++;
+            _RUN_Sensors_SonarSendPulse(E_LEFT_TRIGGER);
+            _u8_sonarState++;
             break;
 
         case 3:
-            u8_echoState = HAL_Sonar_DistanceCalculation(E_LEFT_TRIGGER, &u32_distance);
+            u8_echoState = _RUN_Sensors_SonarDistanceCalculation(E_LEFT_TRIGGER, &u32_distance);
             if (u8_echoState == 1)
             {
-                gu8_distanceSonarFL = (uint8_t)u32_distance;
-                u8_sonarState++;
+                _u8_distanceSonarFL = (uint8_t)u32_distance;
+                _u8_sonarState++;
             }
             break;
 
         case 4:
-            HAL_Sonar_SendPulse(E_RIGHT_TRIGGER);
-            u8_sonarState = ++;
+            _RUN_Sensors_SonarSendPulse(E_RIGHT_TRIGGER);
+            _u8_sonarState++;
             break;
 
         case 5:
-            u8_echoState = HAL_Sonar_DistanceCalculation(E_RIGHT_TRIGGER, &u32_distance);
+            u8_echoState = _RUN_Sensors_SonarDistanceCalculation(E_RIGHT_TRIGGER, &u32_distance);
             if (u8_echoState == 1)
             {
-                gu8_distanceSonarFR = (uint8_t)u32_distance;
-                u8_sonarState++;
+                _u8_distanceSonarFR = (uint8_t)u32_distance;
+                _u8_sonarState++;
             }
             break;
 
+        case 6:
+            gu8_distanceSonarFC = RUN_FIFO_GetSonarAverageFC(_u8_distanceSonarFC);
+            gu8_distanceSonarFL = RUN_FIFO_GetSonarAverageFL(_u8_distanceSonarFL);
+            gu8_distanceSonarFR = RUN_FIFO_GetSonarAverageFR(_u8_distanceSonarFR);
+            _u8_sonarState = 0;
+            break;
+
         default:
-            u8_sonarState = 0;
+            _u8_sonarState = 0;
             break;
     }
 }
@@ -238,6 +244,7 @@ static uint8_t _RUN_Sensors_SonarDistanceCalculation(GPIO e_gpio, uint32_t *pu32
             u8_echoPinState = HAL_GPIO_ReadPinSonar(e_gpio);
             if (u8_echoPinState != 0)
             {
+                _uTimerOvfCount = 0;
                 TCNT0 = 0;
                 _u8_echoState = 1;
             }

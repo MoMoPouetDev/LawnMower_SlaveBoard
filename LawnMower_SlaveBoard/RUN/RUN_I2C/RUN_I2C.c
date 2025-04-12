@@ -12,6 +12,7 @@
 #include "RUN_I2C.h"
 #include "RUN_GPS.h"
 #include "RUN_Sensors.h"
+#include "RUN_GPIO.h"
 
 /*--------------------------------------------------------------------------*/
 /* ... DATATYPES ...                                                        */
@@ -41,7 +42,7 @@ static void _RUN_I2C_Callback(uint8_t u8_receivedData, uint8_t* pu8_sendData)
 	{
 		if((u8_data = _RUN_I2C_DecodeReceivedData(u8_receivedData)) != E_SLAVE_READ_DATA_LED_STATUS) 
 		{
-			pu8_sendData = u8_data;
+			*pu8_sendData = u8_data;
 		}
 		else if (u8_receivedData == E_SLAVE_READ_DATA_LED_STATUS) 
 		{
@@ -49,7 +50,7 @@ static void _RUN_I2C_Callback(uint8_t u8_receivedData, uint8_t* pu8_sendData)
 		}
 	}
 	else {
-		STATUS_updateStatus(u8_receivedData);
+		RUN_GPIO_UpdateMowerState(u8_receivedData);
 		_u8_flagLed = 0;
 	}
 }

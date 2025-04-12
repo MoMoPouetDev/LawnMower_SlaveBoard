@@ -8,6 +8,7 @@
 /*--------------------------------------------------------------------------*/
 /*! ... INCLUDES ...                                                        */
 /*--------------------------------------------------------------------------*/
+#include <avr/interrupt.h>
 #include "RUN_Task_Interface.h"
 #include "RUN_Init.h"
 #include "RUN_Timer.h"
@@ -15,7 +16,6 @@
 #include "RUN_GPIO.h"
 #include "RUN_I2C.h"
 #include "RUN_UART.h"
-#include "RUN_PWM.h"
 #include "RUN_FIFO.h"
 #include "RUN_Sensors.h"
 

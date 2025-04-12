@@ -14,9 +14,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-#include "MIMXRT1062.h"
-#include "MIMXRT1062_features.h"
-#include "fsl_clock.h"
+
 
 #include "LLD_WDT.h"
 

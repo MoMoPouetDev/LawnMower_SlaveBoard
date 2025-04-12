@@ -9,9 +9,12 @@
 /* ... INCLUDES ...                                                         */
 /*--------------------------------------------------------------------------*/
 #include "RUN_Task_Interface.h"
+#include "RUN_Task.h"
 #include "RUN_ADC.h"
 #include "RUN_GPIO.h"
 #include "RUN_Sensors.h"
+#include "RUN_GPS.h"
+#include "RUN_I2C.h"
 
 #include "FSM_Enum.h"
 #include "FSM_Operative.h"

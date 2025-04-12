@@ -24,5 +24,6 @@ void RUN_GPIO_SetEtatMowerReturnToBase(void);
 void RUN_GPIO_SetErrorMowerNtr(void);
 void RUN_GPIO_SetErrorMowerRain(void);
 void RUN_GPIO_UpdateLed(void);
+void RUN_GPIO_UpdateMowerState(uint8_t u8_ledState);
 
 #endif /* RUN_RUN_GPIO_RUN_GPIO_H_ */

@@ -105,27 +105,23 @@ static int16_t _RUN_FIFO_GetAverage(Fifo *list, int value) {
 	return average;
 }
 
-int16_t RUN_FIFO_GetPitchAverage(int16_t s16_value)
+uint8_t RUN_FIFO_GetSonarAverageFC(uint8_t u8_distFC)
 {
-	int16_t s16_returnValue;
-
-	s16_returnValue = _RUN_FIFO_GetAverage(&fifoPitch, s16_value);
-	
-	return s16_returnValue;
+	uint8_t u8_returnValue = 0;
+	u8_returnValue = _RUN_FIFO_GetAverage(&fifoSonarFC, u8_distFC);
+	return u8_returnValue;
 }
 
-int16_t RUN_FIFO_GetRollAverage(int16_t s16_value)
+uint8_t RUN_FIFO_GetSonarAverageFL(uint8_t u8_distFL)
 {
-	int16_t s16_returnValue;
-
-	s16_returnValue = _RUN_FIFO_GetAverage(&fifoRoll, s16_value);
-	
-	return s16_returnValue;
+	uint8_t u8_returnValue = 0;
+	u8_returnValue = _RUN_FIFO_GetAverage(&fifoSonarFL, u8_distFL);
+	return u8_returnValue;
 }
 
-void RUN_FIFO_GetSonarAverage(uint8_t* u8_distFC, uint8_t* u8_distFL, uint8_t* u8_distFR)
+uint8_t RUN_FIFO_GetSonarAverageFR(uint8_t u8_distFR)
 {
-	*u8_distFC = _RUN_FIFO_GetAverage(&fifoSonarFC, *u8_distFC);
-	*u8_distFL = _RUN_FIFO_GetAverage(&fifoSonarFC, *u8_distFL);
-	*u8_distFR = _RUN_FIFO_GetAverage(&fifoSonarFC, *u8_distFR);
+	uint8_t u8_returnValue = 0;
+	u8_returnValue = _RUN_FIFO_GetAverage(&fifoSonarFR, u8_distFR);
+	return u8_returnValue;
 }

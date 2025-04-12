@@ -20,10 +20,8 @@
  /*--------------------------------------------------------------------------*/
  /*! ... LOCAL FUNCTIONS DECLARATIONS ...                                    */
  /*--------------------------------------------------------------------------*/
- void HAL_ADC_Init(void);
- void HAL_ADC_ReadValue(void);
- uint16_t HAL_ADC_GetChargeValue(void);
- uint16_t HAL_ADC_GetBatteryValue(void);
+ void LLD_ADC_Init(void);
+ uint8_t LLD_ADC_ReadConversionValue(uint8_t u8_adcChannel, uint16_t* pu16_adcValue);
  
  #endif /* HAL_HAL_ADC_HAL_ADC_H_ */
  
