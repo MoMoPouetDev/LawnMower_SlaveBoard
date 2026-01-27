@@ -29,37 +29,25 @@ void HAL_UART_Init()
 
 uint8_t HAL_UART_ReceiveCommand(uint8_t* pu8_RxBuffer, uint8_t u8_size)
 {
-	static uint8_t u8_uartState = 0;
-	static uint8_t u8_ind = 0;
+	static char tc_uartBuffer[UART_BUFFER_SIZE] = {0};
 	uint8_t u8_uartReturnState = 0;
 	uint8_t u8_returnValue = 0;
 
-	switch (u8_uartState)
+	u8_uartReturnState = LLD_UART_GetBuffer(tc_uartBuffer);
+	if (u8_uartReturnState != 0)
 	{
-		case 0:
-			u8_uartReturnState = LLD_UART_Receive(pu8_RxBuffer + u8_ind);
-			if (u8_uartReturnState != 0)
+		for (int i=0; i < UART_BUFFER_SIZE; i++)
+		{
+			*(pu8_RxBuffer+i) = tc_uartBuffer[i+1];
+			if (*(pu8_RxBuffer+i) == '\r')
 			{
-				if (u8_ind < (u8_size-1))
-				{
-					u8_size++;
-				}
-				else
-				{
-					u8_uartState++;
-				}
+				*(pu8_RxBuffer+(i+1)) = '\n';
+				break;
 			}
-			break;
-
-		case 1:
-			u8_uartState = 0;
-			u8_returnValue = 1;
-			break;
-
-		default:
-			u8_uartState = 0;
-			break;
+		}
+		u8_returnValue = 1;
 	}
+
 	return u8_returnValue;
 }
 

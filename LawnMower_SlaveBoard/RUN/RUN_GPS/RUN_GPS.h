@@ -74,6 +74,12 @@
      uint8_t decimalB;
      uint8_t decimalLSB;
  }Coordinates;
+
+typedef union
+{
+    float f_coordinates;
+    uint32_t u32_coordinates;
+}U_COORDINATES;
  
  /*--------------------------------------------------------------------------*/
  /*! ... LOCAL FUNCTIONS DECLARATIONS ...                                    */
@@ -81,16 +87,6 @@
 void RUN_GPS_Init(void);
 void RUN_GPS_startGpsAcquisition(void);
 uint8_t RUN_GPS_GetHours(void);
-uint8_t RUN_GPS_GetLongitudeDegrees(void);
-uint8_t RUN_GPS_GetLongitudeMinutes(void);
-uint8_t RUN_GPS_GetLongitudeDecimalMSB(void);
-uint8_t RUN_GPS_GetLongitudeDecimalB(void);
-uint8_t RUN_GPS_GetLongitudeDecimalLSB(void);
-uint8_t RUN_GPS_GetLatitudeDegrees(void);
-uint8_t RUN_GPS_GetLatitudeMinutes(void);
-uint8_t RUN_GPS_GetLatitudeDecimalMSB(void);
-uint8_t RUN_GPS_GetLatitudeDecimalB(void);
-uint8_t RUN_GPS_GetLatitudeDecimalLSB(void);
  
  #endif /* HAL_HAL_GPS_HAL_GPS_H_ */
  

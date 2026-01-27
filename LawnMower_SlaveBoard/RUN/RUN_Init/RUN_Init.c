@@ -18,7 +18,7 @@
 #include "RUN_UART.h"
 #include "RUN_FIFO.h"
 #include "RUN_Sensors.h"
-
+#include "RUN_GPS.h"
 /*--------------------------------------------------------------------------*/
 /* ... DATATYPES ...                                                        */
 /*--------------------------------------------------------------------------*/
@@ -39,6 +39,7 @@ void RUN_Init()
 	RUN_UART_Init();
 	RUN_FIFO_Init();
 	RUN_Sensors_Init();
+	RUN_GPS_Init();
 	RUN_Timer_Init();
 	RUN_ADC_Init();
 	sei();

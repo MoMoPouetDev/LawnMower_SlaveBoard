@@ -33,7 +33,7 @@ uint8_t gu8_ArraySlotTaskSize;
 /*--------------------------------------------------------------------------*/
 /* ... FUNCTIONS IMPLEMENTATIONS...                                         */
 /*--------------------------------------------------------------------------*/
-ISR(TIM1_COMPA_vect)
+ISR(TIMER1_COMPA_vect)
 {
 	RUN_Task_TickIncrement();
 }

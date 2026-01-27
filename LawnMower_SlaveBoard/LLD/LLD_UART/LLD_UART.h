@@ -15,11 +15,12 @@
 /*--------------------------------------------------------------------------*/
 /* ... DATATYPES ...                                                        */
 /*--------------------------------------------------------------------------*/
-
+#define UART_BUFFER_SIZE 80
 /*--------------------------------------------------------------------------*/
 /*! ... GLOBAL FUNCTIONS DECLARATIONS ...                                   */
 /*--------------------------------------------------------------------------*/
 void LLD_UART_Init(void);
+uint8_t LLD_UART_GetBuffer(char* pc_RxBuff);
 uint8_t LLD_UART_Receive(uint8_t* pu8_rxBuff);
 uint8_t LLD_UART_Send(uint8_t* pu8_txBuffer);
 

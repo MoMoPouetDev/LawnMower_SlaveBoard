@@ -15,6 +15,9 @@
         "lld_adc.h": "c",
         "run_task_interface.h": "c",
         "run_gps.h": "c",
-        "run_uart.h": "c"
+        "run_uart.h": "c",
+        "run_gpio.h": "c",
+        "hal_adc.h": "c",
+        "run_adc.h": "c"
     }
 }

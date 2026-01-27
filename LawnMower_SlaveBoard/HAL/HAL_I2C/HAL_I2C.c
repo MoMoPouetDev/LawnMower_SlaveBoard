@@ -20,9 +20,9 @@
 /*--------------------------------------------------------------------------*/
 /*! ... FUNCTIONS DEFINITIONS    ...                                        */
 /*--------------------------------------------------------------------------*/
-void HAL_I2C_Init(lld_i2c_callback_t pf_callback)
+void HAL_I2C_Init(void)
 {
-	LLD_I2C_Init(pf_callback);
+	LLD_I2C_Init();
 }
 
 uint8_t HAL_I2C_IsI2cBusy(void)
