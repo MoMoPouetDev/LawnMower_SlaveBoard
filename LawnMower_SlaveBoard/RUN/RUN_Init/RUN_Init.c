@@ -35,7 +35,7 @@ void RUN_Init()
 {
 	RUN_Task_Interface_Init();
 	RUN_GPIO_Init();
-	RUN_I2C_Init();
+	//RUN_I2C_Init();
 	RUN_UART_Init();
 	RUN_FIFO_Init();
 	RUN_Sensors_Init();

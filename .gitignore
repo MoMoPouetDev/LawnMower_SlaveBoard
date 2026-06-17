@@ -4,4 +4,7 @@ LawnMower_SlaveBoard.atsln
 LawnMower_SlaveBoard/LawnMower_SlaveBoard.componentinfo.xml
 LawnMower_SlaveBoard/LawnMower_SlaveBoard.cproj
 .vs/
-LawnMower_SlaveBoard/Makefile
+*.o
+*.elf
+*.hex
+.vscode/

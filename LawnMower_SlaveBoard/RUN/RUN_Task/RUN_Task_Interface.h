@@ -19,7 +19,7 @@
 
 #define CYCLIC_TASK_ADC_READ_VALUE	    0x00000001
 #define CYCLIC_TASK_SONAR				0x00000040
-#define CYCLIC_TASK_GPS_ACQUISITION		0x00000800
+#define CYCLIC_TASK_SEND_DATA   		0x00000800
 #define CYCLIC_TASK_UPDATE_LED			0x00001000
 
 /*--------------------------------------------------------------------------*/
