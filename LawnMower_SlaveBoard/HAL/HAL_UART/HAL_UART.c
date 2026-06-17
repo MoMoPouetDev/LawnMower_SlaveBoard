@@ -42,10 +42,11 @@ uint8_t HAL_UART_ReceiveCommand(uint8_t* pu8_RxBuffer, uint8_t u8_size)
 			{
 				if (u8_ind < (u8_size-1))
 				{
-					u8_size++;
+					u8_ind++;
 				}
 				else
 				{
+					u8_ind = 0;
 					u8_uartState++;
 				}
 			}
@@ -70,8 +71,10 @@ uint8_t HAL_UART_SendCommand(uint8_t* pu8_buffer, uint8_t u8_bufferSize)
 	
 	if (u8_i < u8_bufferSize)
 	{
-		LLD_UART_Send(pu8_buffer + u8_i);
-		u8_i++;
+		if (LLD_UART_Send(pu8_buffer + u8_i) != 0)
+		{
+			u8_i++;
+		}
 	}
 	else
 	{
