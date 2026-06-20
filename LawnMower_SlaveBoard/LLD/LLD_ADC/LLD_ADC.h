@@ -5,8 +5,8 @@
  *      Author: morgan.venandy
  */
 
- #ifndef HAL_HAL_ADC_HAL_ADC_H_
- #define HAL_HAL_ADC_HAL_ADC_H_
+ #ifndef LLD_ADC_H_
+ #define LLD_ADC_H_
  
  /*--------------------------------------------------------------------------*/
  /*! ... INCLUDES ...                                                        */
@@ -23,5 +23,5 @@
  void LLD_ADC_Init(void);
  uint8_t LLD_ADC_ReadConversionValue(uint8_t u8_adcChannel, uint16_t* pu16_adcValue);
  
- #endif /* HAL_HAL_ADC_HAL_ADC_H_ */
+ #endif /* LLD_ADC_H_ */
  

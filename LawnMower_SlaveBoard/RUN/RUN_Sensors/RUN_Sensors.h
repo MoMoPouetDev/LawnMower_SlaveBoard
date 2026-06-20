@@ -20,7 +20,7 @@
 #define THRESHOLD_HOUR_MIN 9
 #define THRESHOLD_HOUR_MAX 18
 /*** Capteur Tension ***/
-#define CHARGING_THRESHOLD 3225
+#define CHARGING_THRESHOLD (uint16_t)600
 #define SENSOR_V_OK 80
 #define SENSOR_V_FAIBLE_WARN 20
 #define SENSOR_V_FAIBLE_ERR 10

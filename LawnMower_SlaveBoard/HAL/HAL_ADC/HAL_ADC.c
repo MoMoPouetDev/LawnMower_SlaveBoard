@@ -32,7 +32,7 @@ static uint16_t gu16_adcValueBattAmp;
 /*--------------------------------------------------------------------------*/
 void HAL_ADC_Init(void)
 {
-  	gu16_adcValueBattVolt = 0;
+  	gu16_adcValueBattVolt = 470;
   	gu16_adcValueBattAmp = 0;
 
     /* Test ADC */
@@ -42,26 +42,26 @@ void HAL_ADC_Init(void)
 void HAL_ADC_ReadValue(void)
 {
 	uint8_t u8_adcReturn = 0;
-	uint8_t u8_adcState = 0;
-	uint16_t u16_adcValue = 0;
+	static uint8_t _u8_adcState = 0;
+	static uint16_t _u16_adcValue = 0;
 
-	switch (u8_adcState)
+	switch (_u8_adcState)
 	{
 	case 0:
-		u8_adcReturn = LLD_ADC_ReadConversionValue(PIN_ADC0_BATTERY_VOLTAGE, &u16_adcValue);
+		u8_adcReturn = LLD_ADC_ReadConversionValue(PIN_ADC0_BATTERY_VOLTAGE, &_u16_adcValue);
 		if (u8_adcReturn != 0)
 		{
-			gu16_adcValueBattVolt = u16_adcValue;
-			u8_adcState = 1;
+			gu16_adcValueBattVolt = _u16_adcValue;
+			_u8_adcState = 1;
 		}
 		break;
 	
 	case 1:
-		u8_adcReturn = LLD_ADC_ReadConversionValue(PIN_ADC1_BATTERY_AMPERAGE, &u16_adcValue);
+		u8_adcReturn = LLD_ADC_ReadConversionValue(PIN_ADC1_BATTERY_AMPERAGE, &_u16_adcValue);
 		if (u8_adcReturn != 0)
 		{
-			gu16_adcValueBattAmp = u16_adcValue;
-			u8_adcState = 0;
+			gu16_adcValueBattAmp = _u16_adcValue;
+			_u8_adcState = 0;
 		}
 		break;
 	

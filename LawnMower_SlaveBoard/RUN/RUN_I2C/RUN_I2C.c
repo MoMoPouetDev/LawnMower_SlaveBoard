@@ -40,13 +40,13 @@ static void _RUN_I2C_Callback(uint8_t u8_receivedData, uint8_t* pu8_sendData)
 
 	if (!_u8_flagLed) 
 	{
-		if((u8_data = _RUN_I2C_DecodeReceivedData(u8_receivedData)) != E_SLAVE_READ_DATA_LED_STATUS) 
+        if (u8_receivedData == E_SLAVE_READ_DATA_LED_STATUS)
+        {
+            _u8_flagLed = 1;
+        }
+		else  
 		{
-			*pu8_sendData = u8_data;
-		}
-		else if (u8_receivedData == E_SLAVE_READ_DATA_LED_STATUS) 
-		{
-			_u8_flagLed = 1;
+			*pu8_sendData = _RUN_I2C_DecodeReceivedData(u8_receivedData);
 		}
 	}
 	else {
