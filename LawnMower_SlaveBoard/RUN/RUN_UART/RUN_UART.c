@@ -17,8 +17,8 @@
 /*--------------------------------------------------------------------------*/
 /* ... DATATYPES ...                                                        */
 /*--------------------------------------------------------------------------*/
-static uint8_t _tu8_txFrame[SLAVE_TX_FRAME_LEN];
-static uint8_t _u8_frameReady = 0u;
+static uint8_t gtu8_txFrame[SLAVE_TX_FRAME_LEN];
+static uint8_t gu8_frameReady = 0u;
 
 /*--------------------------------------------------------------------------*/
 /*! ... FUNCTIONS DEFINITIONS    ...                                        */
@@ -70,7 +70,7 @@ void RUN_UART_Receive(void)
  * Remplace la réponse I2C slave (TWI_sendData).
  * À appeler périodiquement depuis le scheduler Timer (toutes les ~100ms).
  *
- * Premier appel du cycle (_u8_frameReady == 0) :
+ * Premier appel du cycle (gu8_frameReady == 0) :
  *   → Construit la trame avec les données capteurs fraîches.
  * Appels suivants :
  *   → Continue l'envoi octet par octet via HAL_UART_SendCommand()
@@ -91,28 +91,28 @@ uint8_t RUN_UART_SendSensors(uint8_t u8_battVoltage,
 {
     uint8_t u8_returnValue = 0u;
 
-    if (_u8_frameReady == 0u)
+    if (gu8_frameReady == 0u)
     {
-        _tu8_txFrame[0u] = SLAVE_TX_SOF;
-        _tu8_txFrame[1u] = u8_battVoltage;
-        _tu8_txFrame[2u] = u8_battAmp;
-        _tu8_txFrame[3u] = u8_dock;
-        _tu8_txFrame[4u] = u8_sonarFC;
-        _tu8_txFrame[5u] = u8_sonarFL;
-        _tu8_txFrame[6u] = u8_sonarFR;
+        gtu8_txFrame[0u] = SLAVE_TX_SOF;
+        gtu8_txFrame[1u] = u8_battVoltage;
+        gtu8_txFrame[2u] = u8_battAmp;
+        gtu8_txFrame[3u] = u8_dock;
+        gtu8_txFrame[4u] = u8_sonarFC;
+        gtu8_txFrame[5u] = u8_sonarFL;
+        gtu8_txFrame[6u] = u8_sonarFR;
         /* XOR des données uniquement, le SOF est exclu */
-        _tu8_txFrame[7u] = _tu8_txFrame[1u]
-                         ^ _tu8_txFrame[2u]
-                         ^ _tu8_txFrame[3u]
-                         ^ _tu8_txFrame[4u]
-                         ^ _tu8_txFrame[5u]
-                         ^ _tu8_txFrame[6u];
-        _u8_frameReady = 1u;
+        gtu8_txFrame[7u] = gtu8_txFrame[1u]
+                         ^ gtu8_txFrame[2u]
+                         ^ gtu8_txFrame[3u]
+                         ^ gtu8_txFrame[4u]
+                         ^ gtu8_txFrame[5u]
+                         ^ gtu8_txFrame[6u];
+        gu8_frameReady = 1u;
     }
 
-    if (HAL_UART_SendCommand(_tu8_txFrame, SLAVE_TX_FRAME_LEN) != 0u)
+    if (HAL_UART_SendCommand(gtu8_txFrame, SLAVE_TX_FRAME_LEN) != 0u)
     {
-        _u8_frameReady = 0u;
+        gu8_frameReady = 0u;
         u8_returnValue = 1u;
     }
 
