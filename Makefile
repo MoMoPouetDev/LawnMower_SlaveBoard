@@ -1,5 +1,5 @@
 MCU     = atmega328p
-F_CPU   = 16000000UL
+F_CPU   = 20000000UL
 TARGET  = LawnMower_SlaveBoard
 
 CC      = avr-gcc
