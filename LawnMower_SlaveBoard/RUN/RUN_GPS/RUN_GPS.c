@@ -17,8 +17,8 @@
 /*--------------------------------------------------------------------------*/
 /* ... DATATYPES ...                                                        */
 /*--------------------------------------------------------------------------*/
-static Coordinates gst_latitude;
-static Coordinates gst_longitude;
+static U_COORDINATES guf_latitude;
+static U_COORDINATES guf_longitude;
 
 static uint8_t gu8_minutesGpsAcquisition;
 static uint8_t gu8_hoursGpsAcquisition;
@@ -48,17 +48,9 @@ void RUN_GPS_Init(void)
     gu8_monthsGpsAcquisition = 0;
     gu8_daysGpsAcquisition = 0;
 
-    gst_latitude.degrees = 0;
-    gst_latitude.minutes = 0;
-    gst_latitude.decimalMSB = 0;
-    gst_latitude.decimalB = 0;
-    gst_latitude.decimalLSB = 0;
+    guf_latitude.f_coordinates = 0.0;
 
-    gst_longitude.degrees = 0;
-    gst_longitude.minutes = 0;
-    gst_longitude.decimalMSB = 0;
-    gst_longitude.decimalB = 0;
-    gst_longitude.decimalLSB = 0;
+    guf_longitude.f_coordinates = 0.0;
 }
 
 void RUN_GPS_startGpsAcquisition(void) 
@@ -494,40 +486,40 @@ static void _RUN_GPS_rmcLatLong(DataNmea_RMC *pNmeaRmc)
 	
     latitudeDegrees[0] = pNmeaRmc->latitude[0];
     latitudeDegrees[1] = pNmeaRmc->latitude[1];
-    gst_latitude.degrees = (uint8_t)(atoi(latitudeDegrees));
     
     latitudeMinutes[0] = pNmeaRmc->latitude[2];
     latitudeMinutes[1] = pNmeaRmc->latitude[3];
-    gst_latitude.minutes = (uint8_t)(atoi(latitudeMinutes));
     
     latitudeDecimal[0] = pNmeaRmc->latitude[5];
     latitudeDecimal[1] = pNmeaRmc->latitude[6];
     latitudeDecimal[2] = pNmeaRmc->latitude[7];
     latitudeDecimal[3] = pNmeaRmc->latitude[8];
     latitudeDecimal[4] = pNmeaRmc->latitude[9];
-    decimalTemp = (uint32_t)(atoi(latitudeDecimal));
-    gst_latitude.decimalMSB = (uint8_t)(decimalTemp >> 16);
-    gst_latitude.decimalB = (uint8_t)(decimalTemp >> 8);
-    gst_latitude.decimalLSB = (uint8_t)(decimalTemp);
     
+	guf_latitude.f_coordinates = ((float)(atoi(latitudeDegrees))) + (((float)(atoi(latitudeMinutes))) + ((float)(atoi(latitudeDecimal)) / 100000.0f)) / 60.0f;
+	if (pNmeaRmc->latitudeDir == 'S')
+	{
+        guf_latitude.f_coordinates = -guf_latitude.f_coordinates;
+	}
+
     longitudeDegrees[0] = pNmeaRmc->longitude[0];
     longitudeDegrees[1] = pNmeaRmc->longitude[1];
     longitudeDegrees[2] = pNmeaRmc->longitude[2];
-    gst_longitude.degrees = (uint8_t)(atoi(longitudeDegrees));
     
     longitudeMinutes[0] = pNmeaRmc->longitude[3];
     longitudeMinutes[1] = pNmeaRmc->longitude[4];
-    gst_longitude.minutes = (uint8_t)(atoi(longitudeMinutes));
     
     longitudeDecimal[0] = pNmeaRmc->longitude[6];
     longitudeDecimal[1] = pNmeaRmc->longitude[7];
     longitudeDecimal[2] = pNmeaRmc->longitude[8];
     longitudeDecimal[3] = pNmeaRmc->longitude[9];
     longitudeDecimal[4] = pNmeaRmc->longitude[10];
-    decimalTemp = (uint32_t)(atoi(longitudeDecimal));
-    gst_longitude.decimalMSB = (uint8_t)(decimalTemp >> 16);
-    gst_longitude.decimalB = (uint8_t)(decimalTemp >> 8);
-    gst_longitude.decimalLSB = (uint8_t)(decimalTemp);
+
+	guf_longitude.f_coordinates = ((float)(atoi(longitudeDegrees))) + (((float)(atoi(longitudeMinutes))) + ((float)(atoi(longitudeDecimal)) / 100000.0f)) / 60.0f;
+	if (pNmeaRmc->longitudeDir == 'W')
+	{
+        guf_longitude.f_coordinates = -guf_longitude.f_coordinates;
+	}
 }
 
 uint8_t RUN_GPS_GetHours(void)
@@ -550,52 +542,42 @@ uint8_t RUN_GPS_GetMonths(void)
     return gu8_monthsGpsAcquisition;
 }
 
-uint8_t RUN_GPS_GetLongitudeDegrees(void)
-{
-    return gst_longitude.degrees;
+uint8_t RUN_GPS_GetLatitudeMMSB(void) 
+{ 
+	return (uint8_t)(guf_latitude.u32_coordinates >> 24);
 }
 
-uint8_t RUN_GPS_GetLongitudeMinutes(void)
-{
-    return gst_longitude.minutes;
+uint8_t RUN_GPS_GetLatitudeMSB(void)   
+{ 
+	return (uint8_t)(guf_latitude.u32_coordinates >> 16);
 }
 
-uint8_t RUN_GPS_GetLongitudeDecimalMSB(void)
-{
-    return gst_longitude.decimalMSB;
+uint8_t RUN_GPS_GetLatitudeLSB(void)   
+{ 
+	return (uint8_t)(guf_latitude.u32_coordinates >> 8);
 }
 
-uint8_t RUN_GPS_GetLongitudeDecimalB(void)
-{
-    return gst_longitude.decimalB;
+uint8_t RUN_GPS_GetLatitudeLLSB(void)  
+{ 
+	return (uint8_t)(guf_latitude.u32_coordinates);
 }
 
-uint8_t RUN_GPS_GetLongitudeDecimalLSB(void)
-{
-    return gst_longitude.decimalLSB;
+uint8_t RUN_GPS_GetLongitudeMMSB(void) 
+{ 
+	return (uint8_t)(guf_longitude.u32_coordinates >> 24);
 }
 
-uint8_t RUN_GPS_GetLatitudeDegrees(void)
-{
-    return gst_latitude.degrees;
+uint8_t RUN_GPS_GetLongitudeMSB(void)  
+{ 
+	return (uint8_t)(guf_longitude.u32_coordinates >> 16);
 }
 
-uint8_t RUN_GPS_GetLatitudeMinutes(void)
-{
-    return gst_latitude.minutes;
+uint8_t RUN_GPS_GetLongitudeLSB(void)  
+{ 
+	return (uint8_t)(guf_longitude.u32_coordinates >> 8);
 }
 
-uint8_t RUN_GPS_GetLatitudeDecimalMSB(void)
-{
-    return gst_latitude.decimalMSB;
-}
-
-uint8_t RUN_GPS_GetLatitudeDecimalB(void)
-{
-    return gst_latitude.decimalB;
-}
-
-uint8_t RUN_GPS_GetLatitudeDecimalLSB(void)
-{
-    return gst_latitude.decimalLSB;
+uint8_t RUN_GPS_GetLongitudeLLSB(void) 
+{ 
+	return (uint8_t)(guf_longitude.u32_coordinates);
 }
