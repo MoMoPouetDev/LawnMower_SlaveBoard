@@ -36,7 +36,7 @@ void LLD_UART_Init(void)
     UBRR0L = (unsigned char) BAUD_PRESCALE;
     
     /***** Autoriser Reception *****/
-    UCSR0B = (1<<RXEN0) | (1<<RXCIE0);
+    UCSR0B = (1<<RXEN0);
     UCSR0C = (1<<UCSZ01) | (1<<UCSZ00);
 }
 
