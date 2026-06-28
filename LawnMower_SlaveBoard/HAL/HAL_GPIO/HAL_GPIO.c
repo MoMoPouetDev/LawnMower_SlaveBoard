@@ -67,6 +67,12 @@ void HAL_GPIO_UpdateLed(EtatMower e_etatMower, ErrorMower e_errorMower)
 			LLD_GPIO_WritePin(E_LED_ORANGE);
 			LLD_GPIO_ClearPin(E_LED_RED);
             break;
+
+		case GPS_READY:
+			LLD_GPIO_ClearPin(E_LED_GREEN);
+			LLD_GPIO_WritePin(E_LED_ORANGE);
+			LLD_GPIO_WritePin(E_LED_RED);
+            break;
             
         default:
 			LLD_GPIO_ClearPin(E_LED_GREEN);
