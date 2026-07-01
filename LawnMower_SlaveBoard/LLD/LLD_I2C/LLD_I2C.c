@@ -252,7 +252,7 @@ static uint8_t _LLD_I2C_Start(void)
             break;
 
         case 1:
-            if ((TWCR & (1<<TWINT)) == 1)
+            if ((TWCR & (1<<TWINT)) != 0)
             {
                 _u8_i2cState++;
             }
@@ -287,7 +287,7 @@ static uint8_t _LLD_I2C_RepeatStart(void)
             break;
 
         case 1:
-            if ((TWCR & (1<<TWINT)) == 1)
+            if ((TWCR & (1<<TWINT)) != 0)
             {
                 _u8_i2cState++;
             }
@@ -335,7 +335,7 @@ static uint8_t _LLD_I2C_WriteCmd(uint8_t u8_slaveAddr, uint8_t u8_readWriteByte)
             break;
 
         case 1:
-            if ((TWCR & (1<<TWINT)) == 1)
+            if ((TWCR & (1<<TWINT)) != 0)
             {
                 _u8_i2cState++;
             }
@@ -372,7 +372,7 @@ static uint8_t _LLD_I2C_WriteByte(uint8_t u8_byte)
             break;
 
         case 1:
-            if ((TWCR & (1<<TWINT)) == 1)
+            if ((TWCR & (1<<TWINT)) != 0)
             {
                 _u8_i2cState++;
             }
@@ -407,7 +407,7 @@ static uint8_t _LLD_I2C_ReadACK(uint8_t* pu8_dataBuffer)
             break;
 
         case 1:
-            if ((TWCR & (1<<TWINT)) == 1)
+            if ((TWCR & (1<<TWINT)) != 0)
             {
                 _u8_i2cState++;
             }
@@ -447,7 +447,7 @@ static uint8_t _LLD_I2C_ReadNACK(uint8_t* pu8_dataBuffer)
             break;
 
         case 1:
-            if ((TWCR & (1<<TWINT)) == 1)
+            if ((TWCR & (1<<TWINT)) != 0)
             {
                 _u8_i2cState++;
             }

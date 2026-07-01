@@ -40,13 +40,13 @@ static void _RUN_I2C_Callback(uint8_t u8_receivedData, uint8_t* pu8_sendData)
 
 	if (!_u8_flagLed) 
 	{
-		if((u8_data = _RUN_I2C_DecodeReceivedData(u8_receivedData)) != E_SLAVE_READ_DATA_LED_STATUS) 
+        if (u8_receivedData == E_SLAVE_READ_DATA_LED_STATUS)
+        {
+            _u8_flagLed = 1;
+        }
+		else  
 		{
-			*pu8_sendData = u8_data;
-		}
-		else if (u8_receivedData == E_SLAVE_READ_DATA_LED_STATUS) 
-		{
-			_u8_flagLed = 1;
+			*pu8_sendData = _RUN_I2C_DecodeReceivedData(u8_receivedData);
 		}
 	}
 	else {
@@ -100,44 +100,36 @@ static uint8_t _RUN_I2C_DecodeReceivedData(uint8_t u8_receivedData)
 			u8_sendData = RUN_Sensors_SonarGetDistanceFR();
             break;
 			
-        case E_SLAVE_READ_DATA_GPS_LONG_DEG:
-			u8_sendData = RUN_GPS_GetLongitudeDegrees();
+        case E_SLAVE_READ_DATA_GPS_LONG_MMSB:
+			u8_sendData = RUN_GPS_GetLongitudeMMSB();
             break;
 			
-		case E_SLAVE_READ_DATA_GPS_LONG_MIN:
-            u8_sendData = RUN_GPS_GetLongitudeMinutes();
+		case E_SLAVE_READ_DATA_GPS_LONG_MSB:
+            u8_sendData = RUN_GPS_GetLongitudeMSB();
             break;
 			
-        case E_SLAVE_READ_DATA_GPS_LONG_DEC_MSB:
-            u8_sendData = RUN_GPS_GetLongitudeDecimalMSB();
+        case E_SLAVE_READ_DATA_GPS_LONG_LSB:
+            u8_sendData = RUN_GPS_GetLongitudeLSB();
             break;
 			
-		case E_SLAVE_READ_DATA_GPS_LONG_DEC_B:
-            u8_sendData = RUN_GPS_GetLongitudeDecimalB();
+		case E_SLAVE_READ_DATA_GPS_LONG_LLSB:
+            u8_sendData = RUN_GPS_GetLongitudeLLSB();
             break;
 			
-		case E_SLAVE_READ_DATA_GPS_LONG_DEC_LSB:
-            u8_sendData = RUN_GPS_GetLongitudeDecimalLSB();
+		case E_SLAVE_READ_DATA_GPS_LAT_MMSB:
+            u8_sendData = RUN_GPS_GetLatitudeMMSB();
             break;
 			
-		case E_SLAVE_READ_DATA_GPS_LAT_DEG:
-            u8_sendData = RUN_GPS_GetLatitudeDegrees();
+		case E_SLAVE_READ_DATA_GPS_LAT_MSB:
+            u8_sendData = RUN_GPS_GetLatitudeMSB();
             break;
 			
-		case E_SLAVE_READ_DATA_GPS_LAT_MIN:
-            u8_sendData = RUN_GPS_GetLatitudeMinutes();
+		case E_SLAVE_READ_DATA_GPS_LAT_LLSB:
+            u8_sendData = RUN_GPS_GetLatitudeLLSB();
             break;
         
-        case E_SLAVE_READ_DATA_GPS_LAT_DEC_MSB:
-            u8_sendData = RUN_GPS_GetLatitudeDecimalMSB();
-            break;
-        
-        case E_SLAVE_READ_DATA_GPS_LAT_DEC_B:
-            u8_sendData = RUN_GPS_GetLatitudeDecimalB();
-            break;
-            
-        case E_SLAVE_READ_DATA_GPS_LAT_DEC_LSB:
-            u8_sendData = RUN_GPS_GetLatitudeDecimalLSB();
+        case E_SLAVE_READ_DATA_GPS_LAT_LSB:
+            u8_sendData = RUN_GPS_GetLatitudeLSB();
             break;
             
         default:

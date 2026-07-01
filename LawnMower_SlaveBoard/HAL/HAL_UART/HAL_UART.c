@@ -31,6 +31,7 @@ uint8_t HAL_UART_ReceiveCommand(uint8_t* pu8_RxBuffer, uint8_t u8_size)
 {
 	static uint8_t u8_uartState = 0;
 	static uint8_t u8_ind = 0;
+	static uint8_t _u8_flagDolls = 0;
 	uint8_t u8_uartReturnState = 0;
 	uint8_t u8_returnValue = 0;
 
@@ -40,24 +41,37 @@ uint8_t HAL_UART_ReceiveCommand(uint8_t* pu8_RxBuffer, uint8_t u8_size)
 			u8_uartReturnState = LLD_UART_Receive(pu8_RxBuffer + u8_ind);
 			if (u8_uartReturnState != 0)
 			{
-				if (u8_ind < (u8_size-1))
+				if (_u8_flagDolls != 0)
 				{
-					u8_size++;
+					if (u8_ind < (u8_size-1))
+					{
+						u8_ind++;
+					}
+					else
+					{
+						u8_uartState++;
+						u8_ind = 0;
+						_u8_flagDolls = 0;
+					}
 				}
-				else
+				else if ((*pu8_RxBuffer) == '$')
 				{
-					u8_uartState++;
+					
+					_u8_flagDolls = 1;
+					u8_ind++;
 				}
 			}
 			break;
 
 		case 1:
 			u8_uartState = 0;
+			u8_ind = 0;
 			u8_returnValue = 1;
 			break;
 
 		default:
 			u8_uartState = 0;
+			u8_ind = 0;
 			break;
 	}
 	return u8_returnValue;

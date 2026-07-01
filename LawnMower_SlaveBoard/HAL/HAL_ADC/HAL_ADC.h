@@ -22,8 +22,8 @@
 /*--------------------------------------------------------------------------*/
 void HAL_ADC_Init(void);
 void HAL_ADC_ReadValue(void);
-uint32_t HAL_ADC_GetChargeValue(void);
-uint32_t HAL_ADC_GetBatteryValue(void);
+uint16_t HAL_ADC_GetChargeValue(void);
+uint16_t HAL_ADC_GetBatteryValue(void);
 uint32_t HAL_ADC_GetLeftWireValue(void);
 uint32_t HAL_ADC_GetRightWireValue(void);
 

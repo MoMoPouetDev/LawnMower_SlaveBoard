@@ -20,7 +20,7 @@
 #define THRESHOLD_HOUR_MIN 9
 #define THRESHOLD_HOUR_MAX 18
 /*** Capteur Tension ***/
-#define CHARGING_THRESHOLD 3225
+#define CHARGING_THRESHOLD (uint16_t)600
 #define SENSOR_V_OK 80
 #define SENSOR_V_FAIBLE_WARN 20
 #define SENSOR_V_FAIBLE_ERR 10
@@ -30,7 +30,7 @@
 #define SONAR_LIMITE 20
 #define SONAR_ERR 10
 #define SONAR_DIST_ERR 999
-#define TIMER1_OVERFLOW 65535
+#define TIMER0_OVERFLOW 255
 /*** Calcul of value timer 343 m/s -> 34300 cm/s
  dist = (speedSound*TIMER)/2 = (34300*TIMER)/2 = 17150*TIMER = 17150 * (TIMER_VALUE * 0.125 * 10^-6)
  dist = (speedSound*TIMER)/2 = (34300*TIMER)/2 = 17150*TIMER = 17150 * (TIMER_VALUE * 0.017 * 10^-6)
