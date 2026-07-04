@@ -60,14 +60,10 @@ void FSM_Operative(S_MOWER_FSM_STATE e_FSM_Operative_State)
 			break;
 
 	  	case S_SUP_OPERATIVE_Moving :
-			u8_isI2cBusy = RUN_I2C_IsI2cBusy();
-			if(u8_isI2cBusy == 0)
-			{
-				_FSM_Operative_SonarDistance(u32_CyclicTask);
-				_FSM_Operative_GpsAcquisition(u32_CyclicTask);
-				_FSM_Operative_UpdateLed(u32_CyclicTask);
-				_FSM_Operative_ADCRead(u32_CyclicTask);
-			}
+			_FSM_Operative_SonarDistance(u32_CyclicTask);
+			_FSM_Operative_GpsAcquisition(u32_CyclicTask);
+			_FSM_Operative_UpdateLed(u32_CyclicTask);
+			_FSM_Operative_ADCRead(u32_CyclicTask);
 			break;
    	}
 }

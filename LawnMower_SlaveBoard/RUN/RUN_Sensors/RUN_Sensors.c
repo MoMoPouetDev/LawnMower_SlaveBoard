@@ -21,9 +21,9 @@
 /*--------------------------------------------------------------------------*/
 /* ... DATATYPES ...                                                        */
 /*--------------------------------------------------------------------------*/
-static uint8_t gu8_distanceSonarFC;
-static uint8_t gu8_distanceSonarFL;
-static uint8_t gu8_distanceSonarFR;
+static volatile uint8_t gu8_distanceSonarFC;
+static volatile uint8_t gu8_distanceSonarFL;
+static volatile uint8_t gu8_distanceSonarFR;
 static volatile uint16_t _uTimerOvfCount;
 static Etat ge_rain;
 static Etat ge_dock;
@@ -178,6 +178,8 @@ void RUN_Sensors_SonarDistance(void)
         u8_echoState = _RUN_Sensors_SonarDistanceCalculation(E_CENTER_ECHO, &u32_distance);
         if (u8_echoState == 1)
         {
+            if (u32_distance != ERROR_SONAR)
+        {
             _u8_distanceSonarFC = (uint8_t)u32_distance;
             _u8_sonarState++;
         }
@@ -191,6 +193,8 @@ void RUN_Sensors_SonarDistance(void)
     case 3:
         u8_echoState = _RUN_Sensors_SonarDistanceCalculation(E_LEFT_ECHO, &u32_distance);
         if (u8_echoState == 1)
+        {
+            if (u32_distance != ERROR_SONAR)
         {
             _u8_distanceSonarFL = (uint8_t)u32_distance;
             _u8_sonarState++;
@@ -206,15 +210,14 @@ void RUN_Sensors_SonarDistance(void)
         u8_echoState = _RUN_Sensors_SonarDistanceCalculation(E_RIGHT_ECHO, &u32_distance);
         if (u8_echoState == 1)
         {
+            if (u32_distance != ERROR_SONAR)
+            {
             _u8_distanceSonarFR = (uint8_t)u32_distance;
             _u8_sonarState++;
         }
         break;
 
     case 6:
-        gu8_distanceSonarFC = RUN_FIFO_GetSonarAverageFC(_u8_distanceSonarFC);
-        gu8_distanceSonarFL = RUN_FIFO_GetSonarAverageFL(_u8_distanceSonarFL);
-        gu8_distanceSonarFR = RUN_FIFO_GetSonarAverageFR(_u8_distanceSonarFR);
         _u8_sonarState = 0;
         break;
 
@@ -265,9 +268,9 @@ static uint8_t _RUN_Sensors_SonarDistanceCalculation(GPIO e_gpio, uint32_t *pu32
             _u8_echoState = 0;
             u8_returnValue = 1;
         }
-		else if (_uTimerOvfCount > 3000)
+		else if (_uTimerOvfCount > 4688)
 		{
-			*pu32_distance = THRESHOLD_8_BITS;
+			*pu32_distance = ERROR_SONAR;
 			_uTimerOvfCount = 0;
 			_u8_echoState = 0;
 			u8_returnValue = 1;
