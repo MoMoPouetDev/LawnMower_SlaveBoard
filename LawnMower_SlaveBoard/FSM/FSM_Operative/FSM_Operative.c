@@ -15,7 +15,7 @@
 #include "RUN_Sensors.h"
 #include "RUN_GPS.h"
 #include "RUN_I2C.h"
-
+#include "RUN_UART.h"
 #include "FSM_Enum.h"
 #include "FSM_Operative.h"
 
@@ -70,17 +70,30 @@ void FSM_Operative(S_MOWER_FSM_STATE e_FSM_Operative_State)
 
 static void _FSM_Operative_SonarDistance(uint32_t u32_CyclicTask)
 {
+	uint8_t u8_flagClear = 0;
 	if ( (u32_CyclicTask & CYCLIC_TASK_SONAR) != 0) {
-		RUN_Sensors_SonarDistance();
-		RUN_Task_EraseCyclicTask(CYCLIC_TASK_SONAR);
+		u8_flagClear = RUN_Sensors_SonarDistance();
+		if (u8_flagClear != 0)
+		{
+			RUN_Task_EraseCyclicTask(CYCLIC_TASK_SONAR);
+		}
 	}
 }
 
 static void _FSM_Operative_GpsAcquisition(uint32_t u32_CyclicTask)
 {
+	uint8_t u8_flagClear = 0;
 	if ( (u32_CyclicTask & CYCLIC_TASK_GPS_ACQUISITION) != 0) {
-		RUN_GPS_startGpsAcquisition();
+#ifndef DEBUG_UART
+		u8_flagClear = RUN_GPS_startGpsAcquisition();
+		if (u8_flagClear != 0)
+		{
+			RUN_Task_EraseCyclicTask(CYCLIC_TASK_GPS_ACQUISITION);
+		}
+#else
+		RUN_UART_DebugSendStatus();
 		RUN_Task_EraseCyclicTask(CYCLIC_TASK_GPS_ACQUISITION);
+#endif
 	}
 }
 

@@ -14,7 +14,11 @@
 /*--------------------------------------------------------------------------*/
 /* ... DATATYPES LLD UART ...                                               */
 /*--------------------------------------------------------------------------*/
-#define BAUD 9600U
+#ifndef DEBUG_UART
+#define BAUD 9600
+#else
+#define BAUD 57600
+#endif
 #define BAUD_PRESCALE ((F_CPU/ (16UL*BAUD))-1)
 
 /*--------------------------------------------------------------------------*/
@@ -36,7 +40,7 @@ void LLD_UART_Init(void)
     UBRR0L = (unsigned char) BAUD_PRESCALE;
     
     /***** Autoriser Reception *****/
-    UCSR0B = (1<<RXEN0);
+    UCSR0B = (1 << TXEN0) | (1 << RXEN0);
     UCSR0C = (1<<UCSZ01) | (1<<UCSZ00);
 }
 

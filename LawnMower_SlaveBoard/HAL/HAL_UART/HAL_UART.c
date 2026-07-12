@@ -95,3 +95,14 @@ uint8_t HAL_UART_SendCommand(uint8_t* pu8_buffer, uint8_t u8_bufferSize)
 
 	return u8_returnValue;
 }
+
+void HAL_UART_SendString(const char* pc_string)
+{
+    uint8_t u8_i = 0;
+    uint8_t u8_length = (uint8_t)strlen(pc_string);
+
+    for (u8_i = 0; u8_i < u8_length; u8_i++)
+    {
+        while (LLD_UART_Send((uint8_t*)(pc_string + u8_i)) == 0);
+    }
+}
