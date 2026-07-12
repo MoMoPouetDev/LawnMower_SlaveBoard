@@ -52,7 +52,7 @@ uint8_t RUN_Sensors_GetBatteryPercent(void) ;
 Etat RUN_Sensors_GetRainState(void);
 Etat RUN_Sensors_GetDockState(void);
 void RUN_Sensors_SetRainState(Etat e_rainState);
-void RUN_Sensors_SonarDistance(void);
+uint8_t RUN_Sensors_SonarDistance(void);
 uint8_t RUN_Sensors_SonarGetDistanceFC(void);
 uint8_t RUN_Sensors_SonarGetDistanceFL(void);
 uint8_t RUN_Sensors_SonarGetDistanceFR(void);

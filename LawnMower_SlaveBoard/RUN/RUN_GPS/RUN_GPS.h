@@ -77,7 +77,7 @@ typedef union
  /*! ... LOCAL FUNCTIONS DECLARATIONS ...                                    */
  /*--------------------------------------------------------------------------*/
 void RUN_GPS_Init(void);
-void RUN_GPS_startGpsAcquisition(void);
+uint8_t RUN_GPS_startGpsAcquisition(void);
 uint8_t RUN_GPS_GetHours(void);
 uint8_t RUN_GPS_GetLatitudeMMSB(void);
 uint8_t RUN_GPS_GetLatitudeMSB(void);

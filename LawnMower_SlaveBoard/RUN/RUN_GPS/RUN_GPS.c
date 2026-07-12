@@ -53,37 +53,50 @@ void RUN_GPS_Init(void)
     guf_longitude.f_coordinates = 0.0;
 }
 
-void RUN_GPS_startGpsAcquisition(void) 
+uint8_t RUN_GPS_startGpsAcquisition(void) 
 {
 	static uint8_t _u8_gpsState = 0;
+	static uint8_t _u8_cptGps = 0;
 	static BufferNmea _pBuffer;
     static DataNmea_RMC _pNmeaRmc;
 	uint8_t _bDecodeNmea = 0;
+	uint8_t u8_returnValue = 0;
     
-	switch (_u8_gpsState)
+	if(_u8_cptGps >= 100)
 	{
-	case 0:
-		_RUN_GPS_initBufferNmea(&_pBuffer);
-		_RUN_GPS_initDataRmc(&_pNmeaRmc);
-		_u8_gpsState++;
-		break;
-
-	case 1:
-		_bDecodeNmea = _RUN_GPS_getNmeaUart(&_pBuffer, &_pNmeaRmc);
-		if (_bDecodeNmea)
+		switch (_u8_gpsState)
 		{
+		case 0:
+			_RUN_GPS_initBufferNmea(&_pBuffer);
+			_RUN_GPS_initDataRmc(&_pNmeaRmc);
 			_u8_gpsState++;
-		}
-		break;
+			break;
 
-	case 2:
-		_RUN_GPS_decodeNmeaForMaster(&_pNmeaRmc);
-		_u8_gpsState = 0;
-		break;
-		
-	default:
-		break;
+		case 1:
+			_bDecodeNmea = _RUN_GPS_getNmeaUart(&_pBuffer, &_pNmeaRmc);
+			if (_bDecodeNmea)
+			{
+				_u8_gpsState++;
+			}
+			break;
+
+		case 2:
+			_RUN_GPS_decodeNmeaForMaster(&_pNmeaRmc);
+			_u8_gpsState = 0;
+			_u8_cptGps = 0;
+			u8_returnValue = 1;
+			break;
+			
+		default:
+			break;
+		}
 	}
+	else
+	{
+		_u8_cptGps++;
+	}
+
+	return u8_returnValue;
 }
 
 static void _RUN_GPS_initBufferNmea(BufferNmea *pBuffer) 

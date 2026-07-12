@@ -158,73 +158,89 @@ static void _RUN_Sensors_SonarInit(void)
     gu8_distanceSonarFR = 255;
 }
 
-void RUN_Sensors_SonarDistance(void)
+uint8_t RUN_Sensors_SonarDistance(void)
 {
     static uint8_t _u8_sonarState = 0;
-    static uint8_t _u8_distanceSonarFC = 255;
-    static uint8_t _u8_distanceSonarFL = 255;
-    static uint8_t _u8_distanceSonarFR = 255;
+    static uint8_t _u8_cptSonar = 0;
+    uint8_t u8_returnValue = 0;
     uint8_t u8_echoState = 0;
     uint32_t u32_distance = 0;
 
-    switch (_u8_sonarState)
+    if (_u8_cptSonar >= 25)
     {
-    case 0:
-        _RUN_Sensors_SonarSendPulse(E_CENTER_TRIGGER);
-        _u8_sonarState++;
-        break;
-
-    case 1:
-        u8_echoState = _RUN_Sensors_SonarDistanceCalculation(E_CENTER_ECHO, &u32_distance);
-        if (u8_echoState == 1)
+        switch (_u8_sonarState)
         {
-            if (u32_distance != ERROR_SONAR)
-        {
-            _u8_distanceSonarFC = (uint8_t)u32_distance;
+        case 0:
+            _RUN_Sensors_SonarSendPulse(E_CENTER_TRIGGER);
             _u8_sonarState++;
-        }
-        break;
+            break;
 
-    case 2:
-        _RUN_Sensors_SonarSendPulse(E_LEFT_TRIGGER);
-        _u8_sonarState++;
-        break;
-
-    case 3:
-        u8_echoState = _RUN_Sensors_SonarDistanceCalculation(E_LEFT_ECHO, &u32_distance);
-        if (u8_echoState == 1)
-        {
-            if (u32_distance != ERROR_SONAR)
-        {
-            _u8_distanceSonarFL = (uint8_t)u32_distance;
-            _u8_sonarState++;
-        }
-        break;
-
-    case 4:
-        _RUN_Sensors_SonarSendPulse(E_RIGHT_TRIGGER);
-        _u8_sonarState++;
-        break;
-
-    case 5:
-        u8_echoState = _RUN_Sensors_SonarDistanceCalculation(E_RIGHT_ECHO, &u32_distance);
-        if (u8_echoState == 1)
-        {
-            if (u32_distance != ERROR_SONAR)
+        case 1:
+            u8_echoState = _RUN_Sensors_SonarDistanceCalculation(E_CENTER_ECHO, &u32_distance);
+            if (u8_echoState == 1)
             {
-            _u8_distanceSonarFR = (uint8_t)u32_distance;
+                if (u32_distance != ERROR_SONAR)
+                {
+                    if (u32_distance > 255) u32_distance = 255;
+                    gu8_distanceSonarFC = (uint8_t)u32_distance;//RUN_FIFO_GetSonarAverageFC((uint8_t)u32_distance);
+                    _u8_sonarState++;
+                }
+            }
+            break;
+
+        case 2:
+            _RUN_Sensors_SonarSendPulse(E_LEFT_TRIGGER);
             _u8_sonarState++;
+            break;
+
+        case 3:
+            u8_echoState = _RUN_Sensors_SonarDistanceCalculation(E_LEFT_ECHO, &u32_distance);
+            if (u8_echoState == 1)
+            {
+                if (u32_distance != ERROR_SONAR)
+                {
+                    if (u32_distance > 255) u32_distance = 255;
+                    gu8_distanceSonarFL = (uint8_t)u32_distance;//RUN_FIFO_GetSonarAverageFL((uint8_t)u32_distance);
+                    _u8_sonarState++;
+                }
+            }
+            break;
+
+        case 4:
+            _RUN_Sensors_SonarSendPulse(E_RIGHT_TRIGGER);
+            _u8_sonarState++;
+            break;
+
+        case 5:
+            u8_echoState = _RUN_Sensors_SonarDistanceCalculation(E_RIGHT_ECHO, &u32_distance);
+            if (u8_echoState == 1)
+            {
+                if (u32_distance != ERROR_SONAR)
+                {
+                    if (u32_distance > 255) u32_distance = 255;
+                    gu8_distanceSonarFR = (uint8_t)u32_distance;//RUN_FIFO_GetSonarAverageFR((uint8_t)u32_distance);
+                    _u8_sonarState++;
+                }
+            }
+            break;
+
+        case 6:
+            _u8_sonarState = 0;
+            _u8_cptSonar = 0;
+            u8_returnValue = 1;
+            break;
+
+        default:
+            _u8_sonarState = 0;
+            break;
         }
-        break;
-
-    case 6:
-        _u8_sonarState = 0;
-        break;
-
-    default:
-        _u8_sonarState = 0;
-        break;
     }
+    else
+    {
+        _u8_cptSonar++;
+    }
+
+    return u8_returnValue;
 }
 
 static void _RUN_Sensors_SonarSendPulse(GPIO e_gpio)
