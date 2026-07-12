@@ -166,7 +166,7 @@ uint8_t RUN_Sensors_SonarDistance(void)
     uint8_t u8_echoState = 0;
     uint32_t u32_distance = 0;
 
-    if (_u8_cptSonar >= 25)
+    if (_u8_cptSonar >= 6)
     {
         switch (_u8_sonarState)
         {
@@ -179,12 +179,10 @@ uint8_t RUN_Sensors_SonarDistance(void)
             u8_echoState = _RUN_Sensors_SonarDistanceCalculation(E_CENTER_ECHO, &u32_distance);
             if (u8_echoState == 1)
             {
-                if (u32_distance != ERROR_SONAR)
-                {
-                    if (u32_distance > 255) u32_distance = 255;
-                    gu8_distanceSonarFC = (uint8_t)u32_distance;//RUN_FIFO_GetSonarAverageFC((uint8_t)u32_distance);
-                    _u8_sonarState++;
-                }
+                if (u32_distance > 255) u32_distance = 255;
+                gu8_distanceSonarFC = RUN_FIFO_GetSonarAverageFC((uint8_t)u32_distance);
+                _u8_sonarState++;
+                _u8_cptSonar = 0;
             }
             break;
 
@@ -197,12 +195,10 @@ uint8_t RUN_Sensors_SonarDistance(void)
             u8_echoState = _RUN_Sensors_SonarDistanceCalculation(E_LEFT_ECHO, &u32_distance);
             if (u8_echoState == 1)
             {
-                if (u32_distance != ERROR_SONAR)
-                {
-                    if (u32_distance > 255) u32_distance = 255;
-                    gu8_distanceSonarFL = (uint8_t)u32_distance;//RUN_FIFO_GetSonarAverageFL((uint8_t)u32_distance);
-                    _u8_sonarState++;
-                }
+                if (u32_distance > 255) u32_distance = 255;
+                gu8_distanceSonarFL = RUN_FIFO_GetSonarAverageFL((uint8_t)u32_distance);
+                _u8_sonarState++;
+                _u8_cptSonar = 0;
             }
             break;
 
@@ -215,12 +211,9 @@ uint8_t RUN_Sensors_SonarDistance(void)
             u8_echoState = _RUN_Sensors_SonarDistanceCalculation(E_RIGHT_ECHO, &u32_distance);
             if (u8_echoState == 1)
             {
-                if (u32_distance != ERROR_SONAR)
-                {
-                    if (u32_distance > 255) u32_distance = 255;
-                    gu8_distanceSonarFR = (uint8_t)u32_distance;//RUN_FIFO_GetSonarAverageFR((uint8_t)u32_distance);
-                    _u8_sonarState++;
-                }
+                if (u32_distance > 255) u32_distance = 255;
+                gu8_distanceSonarFR = RUN_FIFO_GetSonarAverageFR((uint8_t)u32_distance);
+                _u8_sonarState++;
             }
             break;
 
@@ -273,7 +266,7 @@ static uint8_t _RUN_Sensors_SonarDistanceCalculation(GPIO e_gpio, uint32_t *pu32
         u8_echoPinState = HAL_GPIO_ReadPinSonar(e_gpio);
         if (u8_echoPinState == 0)
         {
-            u32_timerValue = TCNT0 + (TIMER0_OVERFLOW * _uTimerOvfCount);
+            u32_timerValue = (uint32_t)TCNT0 + (uint32_t)(TIMER0_OVERFLOW * (uint32_t)_uTimerOvfCount);
             *pu32_distance = (u32_timerValue / TIMER_DISTANCE) / 2;
 
             if (*pu32_distance > THRESHOLD_8_BITS)
